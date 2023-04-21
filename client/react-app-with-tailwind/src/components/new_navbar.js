@@ -5,8 +5,11 @@ import {Link} from 'react-router-dom';
 import { useCookies } from "react-cookie"
 import {useNavigate} from 'react-router-dom'
 
+
+
 export const navigation = [
   { name: 'Homepage', href: '/', current: false },
+  { name: 'Products', href: '/products', current: false },
 ]
 
 function classNames(...classes) {
@@ -15,12 +18,13 @@ function classNames(...classes) {
 
 export const Navbar = () => {
 
-  const [cookies, setCookies] = useCookies(["access_token"]);
+  const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
       let user2 = window.localStorage.getItem("username");
       const navigate = useNavigate()
+       
 
       const logout = () => {
-        setCookies("access_token", "")
+        removeCookie("access_token")
         window.localStorage.removeItem("userID");
         navigate("/");
       }
@@ -95,7 +99,7 @@ export const Navbar = () => {
                   </div>
                   }
                 {/* Profile dropdown */}
-                {!cookies.access_token ? (<Link to="/auth"></Link>) 
+                {!cookies.access_token ? (<Link to="/"></Link>) 
                   :
                   <form action="/wishlist" method="get">
                   <button type="submit">
@@ -105,7 +109,7 @@ export const Navbar = () => {
                   </button>
                   </form>
                   }
-                {!cookies.access_token ? (<Link to="/auth"></Link>) 
+                {!cookies.access_token ? (<Link to="/"></Link>) 
                  :
                 <Menu as="div" className="relative ml-3">
                   <div>
@@ -138,6 +142,33 @@ export const Navbar = () => {
                           </a>
                         )}
                       </Menu.Item>
+                       {user2 == "admin" ? 
+                       (<Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            Admin Panel
+                          </a>
+                        )}
+                       </Menu.Item>) 
+                       :
+                       console.log("asd")
+                       }
+                      
+                      <Menu.Item>
+                        {({ active }) => (
+                          <form action="/createproduct" method="get" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                          <button type="submit">
+                            <a>
+                              Sell Product
+                            </a>
+                          </button>
+                          </form>
+                        )}
+                      </Menu.Item>
+
                       <Menu.Item>
                         {({ active }) => (
                           <a

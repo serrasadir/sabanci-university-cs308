@@ -1,16 +1,65 @@
+import axios from "axios";
+import { GetUserID } from "../hooks/useGetuserID";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 export const Wishlist = () => {
-    return  (
-        <div>
-     <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-      <div class="text-center">
-        <p class="text-base font-semibold text-indigo-600"></p>
-        <h1 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Sorry</h1>
-        <p class="mt-6 text-base leading-7 text-gray-600">(Wishlist) --- Page you are looking for will be developed.</p>
-        <div class="mt-10 flex items-center justify-center gap-x-6">
-          <a href="/" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go back home</a>
-        </div>
-      </div>
-     </main>
-        </div>
-        )
+    
+        const [savedProducts, setSavedProducts] = useState([]);
+        const userID = GetUserID();
+     
+        useEffect(() => {
+          const fetchSavedProduct = async () => {
+            try
+            {
+                const response = await axios.get(`http://localhost:3001/product/savedProducts/${userID}`);
+                setSavedProducts(response.data.savedProducts);
+            }
+            catch (err)
+            {
+             console.error(err);
+            }
+           };
+     
+           fetchSavedProduct();
+        }, []);
+     
+       return (
+     
+         <div className="bg-white">
+           <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+             <h2 className="text-2xl font-bold tracking-tight text-gray-900">Wishlist</h2>
+             <p>
+               
+             </p>
+             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+               {savedProducts.map((product) => (
+                 <div key={product.id} className="group relative">
+                   <div className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                     <img
+                       src={product.imageUrl}
+                       alt={product.imageAlt}
+                       className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                     />
+                   </div>
+                   <div className="mt-4 flex justify-between">
+                     <div>
+                       <h3 className="text-left font-medium text-gray-700">
+                         <Link to={`/products/${product.product_id}`}>{product.product_name}
+                         <a>
+                         <span aria-hidden="true" className="absolute inset-0" />
+
+                         </a>                
+                         </Link>
+                       </h3>
+                       <p className="text-left mt-1 text-sm text-gray-500">{product.category}</p>
+                     </div>
+                     <p className="text-right font-medium text-gray-900">{product.price} TL</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+         </div>
+       )
 }

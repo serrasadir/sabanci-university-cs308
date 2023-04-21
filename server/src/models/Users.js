@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     username: {type: String, required: true, unique: true},
     password:  {type: String, required: true },
+    savedProducts: [{type: mongoose.Schema.Types.ObjectId, ref: "products" }],
 });
 
 export const UserModel = mongoose.model("users", userSchema);
