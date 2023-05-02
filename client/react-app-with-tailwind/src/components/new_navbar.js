@@ -1,14 +1,16 @@
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Link} from 'react-router-dom';
 import { useCookies } from "react-cookie"
 import {useNavigate} from 'react-router-dom'
+import { CartShop } from '../pages/cart';
+import { Cart } from '../context/Context';
 
 
 
 export const navigation = [
-  { name: 'Homepage', href: '/', current: false },
+  { name: 'Home', href: '/', current: false },
   { name: 'Products', href: '/products', current: false },
 ]
 
@@ -17,6 +19,10 @@ function classNames(...classes) {
 }
 
 export const Navbar = () => {
+
+  const {
+    state: {cart},
+  } = useContext(Cart);
 
   const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
       let user2 = window.localStorage.getItem("username");
@@ -88,7 +94,7 @@ export const Navbar = () => {
                   }
                   {!cookies.access_token ? (<div className="flow-root">
                     <a href="/sign_up" className="text-sm font-medium leading-6 text-white">
-                    &nbsp;Create account&nbsp;
+                    &nbsp;Create account&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </a>
                   </div>) 
                   : 
@@ -98,9 +104,20 @@ export const Navbar = () => {
                     </p>
                   </div>
                   }
+                  {!cookies.access_token ?
+                  (
+                    <div>
+                    &nbsp;&nbsp;
+                  <CartShop />
+                  </div>
+                  )
+                  :
+                  <div></div>
+                  }
                 {/* Profile dropdown */}
                 {!cookies.access_token ? (<Link to="/"></Link>) 
                   :
+                  
                   <form action="/wishlist" method="get">
                   <button type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -108,6 +125,7 @@ export const Navbar = () => {
                     </svg>
                   </button>
                   </form>
+                  
                   }
                 {!cookies.access_token ? (<Link to="/"></Link>) 
                  :
@@ -116,10 +134,12 @@ export const Navbar = () => {
                     <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
                       <img
+                        
                         className="h-8 w-8 rounded-full"
                         src="https://img.a.transfermarkt.technology/portrait/big/28003-1671435885.jpg?lm=1"
                         alt=""
                       />
+                      &nbsp;&nbsp;
                     </Menu.Button>
                   </div>
                   <Transition
@@ -146,7 +166,7 @@ export const Navbar = () => {
                        (<Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/adminpanel"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Admin Panel
@@ -194,6 +214,17 @@ export const Navbar = () => {
                   </Transition>
                 </Menu>
                }
+               {!cookies.access_token ? (<Link to="/"></Link>) 
+                  :
+                  
+                  (
+                    <div>
+                      &nbsp;&nbsp;
+                    <CartShop />
+                    </div>
+                  )
+                  
+                  }
               </div>
             </div>
           </div>

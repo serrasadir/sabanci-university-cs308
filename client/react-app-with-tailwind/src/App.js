@@ -10,9 +10,21 @@ import {Navbar} from "./components/new_navbar.js";
 import { Category } from "./pages/categories";
 import { Products } from "./pages/product";
 import ProductDetail from "./pages/productDetail";
+import { CartShop } from "./pages/cart";
+import { Purchase } from "./pages/purchase";
+import { Adminpage } from "./pages/adminpage";
+import { Cart } from "./context/Context";
+import { useContext } from "react";
 
 
 function App() {
+
+  const {state} = useContext(Cart);
+
+
+  {!localStorage.getItem("shop_cart") ? (window.localStorage.setItem("shop_cart", JSON.stringify(state.cart))):(<div></div>)}
+
+  console.log()
 
   return (
     <div className="App"> 
@@ -28,6 +40,9 @@ function App() {
       <Route path="/sign_up" element={<SignUpPage/>} />
       <Route path="/categories" element={<Category/>} />
       <Route path="/products" element={<Products/>} />
+      <Route path="/adminpanel" element={<Adminpage/>} />
+      <Route path="/cart" element={<CartShop/>} />
+      <Route path="/purchase" element={<Purchase/>} />
       <Route path="/products/:productId" element={<ProductDetail/>} />
     </Routes>     
     </Router> 

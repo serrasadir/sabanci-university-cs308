@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { ProductModel } from "../models/Product.js";
 import { UserModel } from '../models/Users.js';
+import { CommentModel } from '../models/Comment.js';
 
 const router = express.Router();
 
@@ -91,6 +92,24 @@ router.get("/savedProducts/:userID", async (req, res) => {
     {
       res.json(err);
     }
+});
+
+router.get('/search', async (req, res) => {
+  try {
+    const query = req.query.q;
+    console.log("searched");
+    console.log(query);
+    const products = await ProductModel.find({
+      $or: [
+        { product_name: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } }
+      ]
+    });
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 export {router as productRouter};

@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {useParams} from "react-router-dom"
 import axios from "axios"
 import { GetUserID } from "../hooks/useGetuserID"
+import { Cart } from "../context/Context"
+import { getProdId } from "../hooks/getProdID"
+import { Getprodid2 } from "../hooks/getprodid2"
+import { GetUserName } from "../hooks/getusername"
 
 
 /*const ProductDetail = async () => {
@@ -44,6 +48,12 @@ function classNames(...classes) {
 }
 
 function ProductDetail(props) {
+
+  const {state: {cart}, dispatch, } = useContext(Cart);
+
+
+  console.log(cart);
+  
   const [product, setProduct] = useState(null);
   const [savedProducts, setSavedProducts] = useState([]);
 
@@ -54,17 +64,22 @@ function ProductDetail(props) {
     try {
       const response = await axios.get(`http://localhost:3001/product/${productId}`);
       console.log(response.data);
+      window.localStorage.setItem("prod_id", response.data._id);   
+      window.localStorage.setItem("prod_real_id", response.data.product_id);
       return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
   };
+
   useEffect(() => {
       const fetchProductData = async () => {
      
       const productData = await fetchProduct(productId);
+
       setProduct(productData);
+      
     };
 
     const fetchSavedProduct = async () => {
@@ -98,7 +113,7 @@ function ProductDetail(props) {
     }
   };
 
-  const isProductSaved = (id) => savedProducts.includes(id);
+  const isProductSaved = (id) => savedProducts?.includes(id);
 
   
 
@@ -155,17 +170,23 @@ function ProductDetail(props) {
                 <h1 className="border-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl text-right">{product.price} TL</h1>
                 </div>
               </div>
-              {!isProductSaved(product._id) ? 
+              
+              {!isProductSaved(product._id) && (userID != null) ?           
                  <button 
                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
                  onClick={() => saveProduct(product._id)} 
                  >
-
+                 
                  Add to Wishlist
                  </button>
               :
+              (userID == null) ?
                 <button class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
-                    Already Saved
+                Can't save without login
+                </button>
+                :
+                <button class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                    Already saved
                 </button>
               }
 
@@ -188,27 +209,44 @@ function ProductDetail(props) {
           {/* Product info */}
           <div className="border-4 mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
             <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-              <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Reviews</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Comments</h1>
+              <CommentSection/>
             </div>
   
             {/* Options */}
             <div className="border-4 mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">Size options</p>
-  
-  
-              <form className="mt-10">               
+              
   
                 {/* Sizes */}
+
+                
              
   
-                <button
-                  type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Add to bag
-                </button>
-              </form>
+          {cart.some((p) => p.product_id === product.product_id)
+          ? 
+          (
+          <button onClick= {()=>{dispatch({
+            type:"REMOVE_FROM_CART",
+            payload:product,
+          });
+           }}
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          > 
+          Remove From Cart 
+          </button>
+          )
+          :
+          (<button onClick= {()=>{dispatch({
+            type:"ADD_TO_CART",
+            payload:product,
+          });
+           }}
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Add to Cart </button>
+          )
+          }
+              
             </div>
   
             <div className="border-4 py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
@@ -223,6 +261,88 @@ function ProductDetail(props) {
       )}
     </div>
   );
+}
+
+const CommentSection = () => {
+
+  const prod_id = getProdId();
+
+  const userID = GetUserID();
+
+  const prod_id_real = Getprodid2();
+
+  const username = GetUserName();
+
+  const [comment2, setComment] = useState({
+    comment: "",
+    user: userID,
+    prod_id: prod_id,
+    product_id_real: prod_id_real,
+    user_name: username,
+  });
+
+  const handleChange = (event) => {
+
+    const {name, value} = event.target;
+    setComment({ ...comment2, [name]: value});
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try 
+    {
+         await axios.post("http://localhost:3001/comment/save_comment", comment2);
+         alert("Your comment sent to admin.");
+    }
+    catch (error)
+    {
+        console.error(error);
+    }
+};
+
+  return (
+    <div>
+       {!userID ?
+        (
+          <div>
+            <p>You need to login first.</p>
+          </div>
+        ):
+        (
+          <form onSubmit={handleSubmit}>
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
+            <div className="sm:col-span-2">
+              <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
+                Your Comment
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <textarea
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    rows={3}
+                    className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
+                    defaultValue={''}
+                    placeholder="Write your comment here"
+                    onChange={handleChange}
+                  />
+                </div>
+                <p className="mt-3 text-sm leading-6 text-gray-600">Send your comment for this product.</p>
+              </div>
+            </div>
+          </div>
+          <button
+          type="submit"
+          className="rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Send your comment
+        </button>
+          </form>
+        )
+        }
+    </div>
+  )
 }
 
 export default ProductDetail
