@@ -176,6 +176,22 @@ export const Navbar = () => {
                        :
                        console.log("asd")
                        }
+                       {user2 == "cargo" ? 
+                       (<Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="/cargopanel"
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            Cargo Panel
+                          </a>
+                        )}
+                       </Menu.Item>) 
+                       :
+                       console.log("asd")
+                       }
+
+
                       
                       <Menu.Item>
                         {({ active }) => (
@@ -192,10 +208,10 @@ export const Navbar = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/order_history"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Settings
+                            Order History
                           </a>
                         )}
                       </Menu.Item>

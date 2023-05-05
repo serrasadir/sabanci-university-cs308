@@ -1,3 +1,14 @@
+const getLocalCartData = () => {
+	let localCartData = localStorage.getItem("local_cart");
+	if (localCartData === [])
+	  {
+	   return [];
+	  }
+	else
+	 {
+	   return JSON.parse(localCartData);
+	 }  
+  };
 
 export const cartReducer = (state, action) => {
 	switch (action.type) {
@@ -5,14 +16,14 @@ export const cartReducer = (state, action) => {
 			return {
 				loading: false,
 				products: action.payload,
-                cart: [],
+                cart: getLocalCartData(),
 				error: ''
 			}
 		case 'FETCH_ERROR':
 			return {
 				loading: false,
 				products: [],
-                cart: [],
+                cart: getLocalCartData(),
 				error: 'Something went wrong!'
 			}
         case 'ADD_TO_CART':
@@ -29,3 +40,24 @@ export const cartReducer = (state, action) => {
 			return state
 	}
 }
+
+export const productReducer = (state, action) => {
+	switch (action.type) {
+	  case "SORT_BY_PRICE":
+		    return { ...state, sort: action.payload };
+	  case "FILTER_BY_SEARCH":
+			return { ...state, searchQuery: action.payload };
+	  case "SET_NORMAL":
+			return { back_to: action.payload };
+	  case "CLEAR_FILTERS":
+			return { byRating: 0 };
+	  case "t-shirt":
+			return { ...state, cate: action.payload };
+	  case "pants":
+			return { ...state, cate: action.payload};
+	  case "sweat":
+			return { ...state, cate: action.payload };
+	  default:
+		return state;
+	}
+  };

@@ -53,6 +53,19 @@ router.post("/login", async (req, res) => {
 });
 
 
+router.get("/order_history/:userid", async(req, res) => {
+   try 
+    {
+      const response = await UserModel.findById({_id: req.params.userid});
+      res.json(response);
+      console.log(response);
+    } 
+    catch (err) 
+    {
+      res.json(err);
+    }
+})
+
 
 
 export {router as userRouter};

@@ -37,4 +37,16 @@
   }
 }
 
+input[ type="radio"]{
+  display: none;
+}
 
+.starDiv{
+  display: flex;
+  flex-direction: row;
+}
+
+
+.hideDiv{
+  display: none;
+}

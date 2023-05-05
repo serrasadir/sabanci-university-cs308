@@ -26,12 +26,8 @@ const Createp = () => {
       price: 0, 
       color: "Red",
       imageUrl: "",
-      x_small_size: 0,
-      small_size: 0,
-      medium_size: 0,
-      large_size: 0,
-      x_large_size: 0,
-      xx_large_size: 0,
+      size: "XS",
+      stock: 0,
       warranty: 1, 
       userOwner: userID,
     });
@@ -50,7 +46,7 @@ const Createp = () => {
         {
              await axios.post("http://localhost:3001/product/save", product);
              alert("Product added!");
-             navigate("/");
+             navigate("/products");
         }
         catch (error)
         {
@@ -167,126 +163,42 @@ const Createp = () => {
               </div>
             </div>
           </div>
-          
-          <label htmlFor="price" className=" mt-10 block text-sm font-medium leading-6 text-gray-900">
-                Stocks
-              </label>
+
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-1 sm:max-w-md">
+          <div className="sm:col-span-2">
+          <label for="color" class="block text-sm font-medium leading-7 text-gray-900">Size</label>
+          <div class="mt-2">
+            <select onChange={handleChange} id="size" name="size" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-7">
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>XXL</option>
+            </select>
+           </div>
+           <p className="mt-3 text-sm leading-6 text-gray-600">Choose one of the sizes from above list.</p>
+           </div>
+          </div> 
 
           <div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
             <div className="sm:col-span-2">
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">XS</span>
                   <input
-                    htmlFor = "x_small_size"
+                    htmlFor = "stock"
                     type="number"
-                    name="x_small_size"
-                    id="x_small_size"
+                    name="stock"
+                    id="stock"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Stock"
                     onChange={handleChange}
                   />
                 </div>
               </div>
+              <p className="mt-3 text-sm leading-6 text-gray-600">Give stock for your product.</p>
             </div>
-          </div>
-
-          <div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
-            <div className="sm:col-span-2">
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">S</span>
-                  <input
-                    htmlFor = "small_size"
-                    type="number"
-                    name="small_size"
-                    id="small_size"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Stock"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
-            <div className="sm:col-span-2">
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">M</span>
-                  <input
-                    htmlFor = "medium_size"
-                    type="number"
-                    name="medium_size"
-                    id="medium_size"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Stock"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
-            <div className="sm:col-span-2">
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">L</span>
-                  <input
-                    htmlFor = "large_size"
-                    type="number"
-                    name="large_size"
-                    id="large_size"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Stock"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
-            <div className="sm:col-span-2">
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">XL</span>
-                  <input
-                    htmlFor= "x_large_size"
-                    type="number"
-                    name="x_large_size"
-                    id="x_large_size"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Stock"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-md">
-            <div className="sm:col-span-2">
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">XXL</span>
-                  <input
-                    htmlFor = "xx_large_size"
-                    type="number"
-                    name="xx_large_size"
-                    id="xx_large_size"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Stock"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
+          </div>      
 
           <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-1 sm:max-w-md">
           <div className="sm:col-span-2">
