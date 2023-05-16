@@ -47,10 +47,8 @@ export const productReducer = (state, action) => {
 		    return { ...state, sort: action.payload };
 	  case "FILTER_BY_SEARCH":
 			return { ...state, searchQuery: action.payload };
-	  case "SET_NORMAL":
-			return { back_to: action.payload };
 	  case "CLEAR_FILTERS":
-			return { byRating: 0 };
+			return { byRating: 0, sort: "normal" };
 	  case "t-shirt":
 			return { ...state, cate: action.payload };
 	  case "pants":

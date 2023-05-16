@@ -20,7 +20,7 @@ export const Home = () => {
 
   const { state } = useContext(Cart);
 
-  const { productState: {sort, searchQuery, back_to, cate}, productDispatch} = useContext(Cart);
+  const { productState: {sort, searchQuery, clear_filters, cate}, productDispatch} = useContext(Cart);
 
   
   if(state.loading) {
@@ -32,21 +32,24 @@ export const Home = () => {
     return <div>Error: {state.error}</div>
   }
 
-  console.log(state);
  
   const filteredItems = getFilteredItems(query.toLowerCase(), state.products);
 
   const transformProducts = () => {
     let sortedProducts = state.products;
 
-    if (sort) {
-      sortedProducts = sortedProducts.sort((a, b) =>
+    if (sort)  {
+      if(sort == "normal")
+      {
+        return sortedProducts;
+      }
+      else {
+        console.log(sort)
+        console.log("3")
+        sortedProducts = sortedProducts.sort((a, b) =>
         sort === "lowToHigh" ? a.price - b.price : b.price - a.price
       );
-    }
-
-    if (back_to === "1") {
-       sortedProducts = state.products;
+      }
     }
 
     if (searchQuery) {

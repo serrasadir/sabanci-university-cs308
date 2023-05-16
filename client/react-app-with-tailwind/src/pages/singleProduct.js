@@ -25,7 +25,6 @@ export const SingleProduct = ({prod}) => {
 
   const { state: { cart }, dispatch, } = useContext(Cart);
 
-  console.log(cart);
 
   return (
     <div>

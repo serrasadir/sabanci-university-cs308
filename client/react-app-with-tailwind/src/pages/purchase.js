@@ -41,11 +41,6 @@ export const Purchase = () => {
     try 
     {
          await axios.post("http://localhost:3001/order/save_order", order2);
-         let a = []
-         localStorage.setItem("local_cart", JSON.stringify(a));
-         
-         alert("Your order OK!");
-         
     }
     catch (error)
     {
@@ -57,6 +52,19 @@ export const Purchase = () => {
 const Back_To =  () => {
    return alert("You need to login or sign-up first!")
 };
+
+const resetCartList = () => {
+  let a = [];
+  localStorage.setItem("local_cart", JSON.stringify(a));
+}
+
+const refreshPage = () => {
+  window.location.reload(true);
+}
+
+const RedirectPage = () => {
+  navigate("/payment_success");
+}
 
   
 
@@ -143,9 +151,14 @@ const Back_To =  () => {
                           :
                           (
                           <button
-                            href="#"
+                            href="/payment_success"
                             disabled={cart.length === 0}
-                            onClick={handleSubmit}
+                            onClick={() => {
+                              handleSubmit();
+                              resetCartList();
+                              RedirectPage();
+                              refreshPage();
+                            }}
                             className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                           >
                             Checkout

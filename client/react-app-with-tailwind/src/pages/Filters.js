@@ -12,7 +12,7 @@ export const Filters = () => {
 
      const {
       productDispatch,
-      productState: { sort, back_to, cate},
+      productState: { sort, back_to,clear_filters, cate},
     } = useContext(Cart);
 
 
