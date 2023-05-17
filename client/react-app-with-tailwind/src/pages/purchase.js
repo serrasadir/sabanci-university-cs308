@@ -34,14 +34,23 @@ export const Purchase = () => {
     status: "Processing"
   });
 
-  console.log(order2)
+  console.log("my order:",order2)
+
+  const refreshPage = () => {
+    window.location.reload(true);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try 
     {
          await axios.post("http://localhost:3001/order/save_order", order2);
+         let a = [];
+         localStorage.setItem("local_cart", JSON.stringify(a));
+         navigate("/payment_success")
+         refreshPage();
     }
+    
     catch (error)
     {
         console.error(error);
@@ -58,12 +67,15 @@ const resetCartList = () => {
   localStorage.setItem("local_cart", JSON.stringify(a));
 }
 
-const refreshPage = () => {
-  window.location.reload(true);
-}
 
 const RedirectPage = () => {
   navigate("/payment_success");
+}
+
+const onSubmit = () => {
+  resetCartList();
+  RedirectPage();
+  refreshPage();
 }
 
   
@@ -151,14 +163,10 @@ const RedirectPage = () => {
                           :
                           (
                           <button
+                            
                             href="/payment_success"
                             disabled={cart.length === 0}
-                            onClick={() => {
-                              handleSubmit();
-                              resetCartList();
-                              RedirectPage();
-                              refreshPage();
-                            }}
+                            onClick={handleSubmit}
                             className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                           >
                             Checkout
