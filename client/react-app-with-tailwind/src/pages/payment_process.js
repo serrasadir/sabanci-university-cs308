@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import "../App.css";
+
 import {
   Document,
   Page,
@@ -15,6 +16,7 @@ import {
 import { saveAs } from "file-saver";
 import { GetUserID } from "../hooks/useGetuserID";
 import { Cart } from "../context/Context";
+
 
 
 export const PaymentProcess = () => {
@@ -34,6 +36,7 @@ const Payment = (props) => {
   const { state: { cart } } = useContext(Cart);
   const [control, setControl] = useState();
   const [user, setUser] = useState(null);
+  const [total2, setTotal] = useState(0);
   let a = []
 
   for (let i = 0; i < cart.length; i++) {
@@ -48,7 +51,8 @@ const Payment = (props) => {
   const [order2, setOrder] = useState({
     order: a,
     userID: userid,
-    status: "Processing"
+    status: "Processing",
+    total: cart.reduce((acc,curr) => acc + Number(curr.price), 0)
   });
 
 
@@ -70,8 +74,8 @@ const handleSubmit = async (event) => {
          await axios.post("http://localhost:3001/order/save_order", order2);
          let a = [];
          localStorage.setItem("local_cart", JSON.stringify(a));
-         const pdfBlob = await generatePDF(address);
-         saveAs(pdfBlob, "invoice.pdf");
+         /*const pdfBlob = await generatePDF(address);
+         saveAs(pdfBlob, "invoice.pdf");*/
          await axios.post("http://localhost:3001/auth/paymentinfo", {
          userID,
          address,
@@ -115,7 +119,7 @@ const handleSubmit = async (event) => {
     }
 
 
-  };*/
+  };
 
   const generatePDF = async (address) => {
     const blob = await fetch("/pdf", {
@@ -124,7 +128,8 @@ const handleSubmit = async (event) => {
     }).then((res) => res.blob());
 
     return blob;
-  };
+  };*/
+  
 
   return (
     <>
@@ -256,68 +261,10 @@ const FormPayment = ({ email, setEmail, address, setAddress, city, setCity, card
               >
                 Buy the products
               </button>
+              <div> MyComponent </div>
             </div>
           </form>
         </div>
       </div>
     )
  }
-
-
-
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    backgroundColor: "#d11fb6",
-    color: "white",
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-  },
-});
-
-// Create Document Component
-function BasicDocument({address}) {
-  const [viewerStyle, setViewerStyle] = useState({
-    width: "100vw",
-    height: "100vh",
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewerStyle({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Call handleResize initially to set the initial viewer size
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  return (
-    <PDFViewer style={viewerStyle}>
-      {/* Start of the document*/}
-      <Document>
-        {/* Render a single page */}
-        <Page size="A4" style={styles.page}>
-          <View style={styles.section}>
-            <Text>{address}</Text>
-          </View>
-          <View style={styles.section}>
-            <Text>Address Information</Text>
-          </View>
-        </Page>
-      </Document>
-    </PDFViewer>
-  );
-}
-
-export default BasicDocument;

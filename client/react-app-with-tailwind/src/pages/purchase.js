@@ -25,7 +25,8 @@ export const Purchase = () => {
   const [order2, setOrder] = useState({
     order: a,
     userID: userID,
-    status: "Processing"
+    status: "Processing",
+    total: cart.reduce((acc,curr) => acc + Number(curr.price), 0)
   });
 
   console.log("my order:",order2)

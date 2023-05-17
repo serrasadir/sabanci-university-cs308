@@ -48,23 +48,18 @@ router.post("/paymentinfo", async (req, res) => {
    res.json({message: "User infos saved!"});
 });
 
-router.get("get_user/:userid", async (req, res) => { 
-   const {userid} = req.params;
-   console.log(iamhere)
+router.get("/getpdf/:userID", async (req, res) => {
+   const {userID} = req.params;
    try 
    {
-        console.log(product_id);
-        const response = await UserModel.findOne({_id: userid })
-        console.log(response)
-        if(!response){
-         res.sendStatus(404);
-                }
-        res.json(response);        
-   }
-   catch (err) 
-   {
-        res.json(err);
-   }
+        const response = await UserModel.findOne({_id: req.params.userID})
+        res.json(response);
+      console.log(response);
+    } 
+    catch (err) 
+    {
+      res.json(err);
+    }
 });
 
 
@@ -96,6 +91,7 @@ router.get("/order_history/:userid", async(req, res) => {
     {
       const response = await UserModel.findById({_id: req.params.userid});
       res.json(response);
+      console.log("SERO");
       console.log(response);
     } 
     catch (err) 
