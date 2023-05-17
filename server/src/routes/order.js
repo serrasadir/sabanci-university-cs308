@@ -10,7 +10,7 @@ router.post("/save_order", async (req, res) => {
     const order = new OrderModel(req.body);
     let a = []
     a = req.body.order;
-    console.log("message",a);
+    console.log("ORDER SAVED");
         try 
         {
              for (let i = 0; i < a.length; i++) {

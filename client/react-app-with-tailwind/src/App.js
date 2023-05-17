@@ -17,6 +17,7 @@ import { useContext } from "react";
 import { OrderHistory } from "./pages/orderhistory";
 import { Cargopage } from "./pages/cargopage";
 import { PaymentDone } from "./pages/payment_done";
+import { PaymentProcess } from "./pages/payment_process";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
       <Route path="/purchase" element={<Purchase/>} />
       <Route path="/order_history" element={<OrderHistory/>} />
       <Route path="/payment_success" element={<PaymentDone/>} />
+      <Route path="/payment_process" element={<PaymentProcess/>} />
       <Route path="/products/:productId" element={<ProductDetail/>} />
     </Routes>     
     </Router> 

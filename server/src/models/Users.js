@@ -7,6 +7,11 @@ const userSchema = new mongoose.Schema({
     savedProducts: [{type: mongoose.Schema.Types.ObjectId, ref: "products" }],
     ratedProducts: [{type: mongoose.Schema.Types.ObjectId, ref: "products" }],
     ordered: [],
+    address: {type: String, required: false, default: ""},
+    city: {type: String, required: false, default: ""},
+    cardNumber: {type: String, required: false, default: ""},
+
+
 });
 
 export const UserModel = mongoose.model("users", userSchema);

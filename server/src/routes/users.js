@@ -28,6 +28,44 @@ router.post("/register", async (req, res) => {
      res.json({message: "User registered successfully!"});
 });
 
+router.post("/paymentinfo", async (req, res) => {
+   const {userID, city, address, cardNumber } = req.body;
+  
+   const user = await UserModel.findById({ _id: userID });
+   
+   if (!user)  
+   {
+       return res.json({message: "User does not exist!"});     
+   }
+   const hashednumber = await bcrypt.hash(cardNumber, 10);
+   console.log(hashednumber);
+
+   user.address = address;
+   user.city = city;
+   user.cardNumber = hashednumber;
+   user.save();
+   console.log("UPDATED")
+   res.json({message: "User infos saved!"});
+});
+
+router.get("get_user/:userid", async (req, res) => { 
+   const {userid} = req.params;
+   console.log(iamhere)
+   try 
+   {
+        console.log(product_id);
+        const response = await UserModel.findOne({_id: userid })
+        console.log(response)
+        if(!response){
+         res.sendStatus(404);
+                }
+        res.json(response);        
+   }
+   catch (err) 
+   {
+        res.json(err);
+   }
+});
 
 
 router.post("/login", async (req, res) => {

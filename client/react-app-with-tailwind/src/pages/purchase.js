@@ -16,15 +16,9 @@ export const Purchase = () => {
   
   let a = []
 
-  console.log(cart.length)
-
   for (let i = 0; i < cart.length; i++) {
     a.push(cart[i]);
   }
-
-  console.log("hello")
-
-  console.log(a)
 
   const userID = GetUserID();
 
@@ -44,11 +38,7 @@ export const Purchase = () => {
     event.preventDefault();
     try 
     {
-         await axios.post("http://localhost:3001/order/save_order", order2);
-         let a = [];
-         localStorage.setItem("local_cart", JSON.stringify(a));
-         navigate("/payment_success")
-         refreshPage();
+         navigate("/payment_process")
     }
     
     catch (error)
@@ -62,23 +52,6 @@ const Back_To =  () => {
    return alert("You need to login or sign-up first!")
 };
 
-const resetCartList = () => {
-  let a = [];
-  localStorage.setItem("local_cart", JSON.stringify(a));
-}
-
-
-const RedirectPage = () => {
-  navigate("/payment_success");
-}
-
-const onSubmit = () => {
-  resetCartList();
-  RedirectPage();
-  refreshPage();
-}
-
-  
 
   useEffect(() => {
       setTotal(cart.reduce((acc,curr) => acc + Number(curr.price), 0));
@@ -86,7 +59,8 @@ const onSubmit = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-r from-indigo-500 to-purple-100">
+    <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 to-purple-100">
     <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
       Your Cart
     </h1>
@@ -178,6 +152,7 @@ const onSubmit = () => {
         </div>
   )
                     }
+                    </div>
                     </div>
                     </div>
   )
