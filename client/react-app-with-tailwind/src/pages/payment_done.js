@@ -5,7 +5,7 @@ import {  useState, useEffect } from "react";
 import { GetUserID } from '../hooks/useGetuserID';
 import axios from 'axios';
 
-export function downloadPDF(address, username, city, order) {
+export function downloadPDF(address, username, city, order2) {
   // Create a new jsPDF instance
   const doc = new jsPDF();
   
@@ -37,7 +37,7 @@ export function downloadPDF(address, username, city, order) {
   let yPos = 80;
   
   // Iterate over the order items and add them to the PDF
-  order[order.length - 1].order.forEach((o, index) => {
+  order2[order2.length - 1].order.forEach((o, index) => {
     const productName = o.product_name;
     const price = o.price;
     doc.setFont('New York Times Roman', 'bold');
@@ -57,7 +57,7 @@ export function downloadPDF(address, username, city, order) {
   // Calculate the total amount
   
   // Add the total amount
-  doc.text(`Total Amount: ${order[order.length-1].total}$`, 10, yPos + 20);
+  doc.text(`Total Amount: ${order2[order2.length-1].total}$`, 10, yPos + 20);
   doc.text("Wave Shopping hope to see you again!", 60, yPos + 30)
   
   // Save the PDF
@@ -86,7 +86,7 @@ export const PaymentDone = () => {
       const fetchData = async (userID) => {
         try 
         {
-            const response = await axios.get(`http://localhost:3001/auth/order_history/${userID}`);
+            const response = await axios.get(`http://localhost:3001/auth/mail/${userID}`);
             setOrder(order => [...response.data.ordered]);
         }
         catch (err)

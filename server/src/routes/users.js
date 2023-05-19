@@ -126,9 +126,10 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.get("/order_history/:userid", async (req, res) => {
+router.get("/mail/:userid", async (req, res) => {
    try {
      const response = await UserModel.findById(req.params.userid);
+
      const lastOrder = response.ordered[response.ordered.length - 1];
 
      // Extract the product names from the last order
@@ -160,13 +161,27 @@ router.get("/order_history/:userid", async (req, res) => {
      try {
        await sgMail.send(emailData);
        console.log("Email sent successfully");
- 
-       // Send the response after the email is sent
+       console.log(response);
        res.json(response);
+
      } catch (err) {
        console.log(err);
        res.status(500).json({ error: "Failed to send email" });
      }
+     
+   } catch (err) {
+     console.error(err);
+     res.status(500).json({ error: "Internal server error" });
+   }
+ });
+
+
+router.get("/order_history/:userid", async (req, res) => {
+   try {
+     const response = await UserModel.findById(req.params.userid);
+
+     res.json(response)
+     
    } catch (err) {
      console.error(err);
      res.status(500).json({ error: "Internal server error" });
