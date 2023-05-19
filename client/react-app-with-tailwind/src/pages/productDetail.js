@@ -8,9 +8,8 @@ import { Getprodid2 } from "../hooks/getprodid2"
 import { GetUserName } from "../hooks/getusername"
 
 
-
 /*const ProductDetail = async () => {
-    /*const [products, setProducts] = useState([]);*/
+    /const [products, setProducts] = useState([]);/
     //const {productId} = useParams();
     //const thisProduct = products.map(prod => prod.product_id === productId);
 
@@ -77,9 +76,8 @@ function ProductDetail(props) {
   const fetchProduct = async (productId) => {
     try {
       const response = await axios.get(`http://localhost:3001/product/${productId}`);
-    
       window.localStorage.setItem("prod_id", response.data._id);   
-      window.localStorage.setItem("prod_real_id", response.data.product_id);
+      window.localStorage.setItem("prod_real_id", response.data.product_id);  
       return response.data;
 
     } catch (error) {
@@ -213,7 +211,7 @@ function ProductDetail(props) {
                 <h3 className="sr-only">Color</h3>
   
                 <div className="space-y-6">
-                  <p className="mt-20 border-4 text-base text-gray-900 text-left">{product.color}</p>
+                  <p className="mt-20 border-4 text-base text-gray-900 text-left">{product.rating_result}</p>
                 </div>
               </div>
 
@@ -258,6 +256,12 @@ function ProductDetail(props) {
                     Already saved
                 </button>
               }
+
+
+             
+
+              
+
             </div>
   
             {/* Options */}
@@ -279,35 +283,48 @@ function ProductDetail(props) {
            <div className="border-4 border-green-500 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Ratings</h1>
               <div className="p-4">
-      <div className="mt-2 flex items-center">
-        <span className="text-yellow-500">
-          {[...Array(rating)].map((_, index) => (
-            <svg
-              key={index}
-              className="h-4 w-4 fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M19.968,7.52a.872.872,0,0,0-.672-.595L13.445,5.729,10.87.712a.863.863,0,0,0-1.592,0L6.555,5.729.7,6.926A.862.862,0,0,0,.2,8.764l4.8,4.665L4.236,18.56a.864.864,0,0,0,1.265.912L10,15.479l4.5,2.993a.863.863,0,0,0,1.265-.912l-.965-5.968,4.8-4.665A.866.866,0,0,0,19.968,7.52Z" />
-            </svg>
-          ))}
-        </span>
-        <span className="ml-2 text-gray-600">{rating} out of 5</span>
-        <select className="ml-2 border border-gray-400 rounded p-1" value={rating} onChange={handleRatingChange}>
-          <option value={0}>Select rating</option>
-          <option value={1}>1 star</option>
-          <option value={2}>2 stars</option>
-          <option value={3}>3 stars</option>
-          <option value={4}>4 stars</option>
-          <option value={5}>5 stars</option>
-        </select>
-        <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={() => rateProduct(rating, product._id)}>
-              Rate
-        </button>
-        <div>
-          </div>
-      </div>
+               {!isProductRated(product._id) && (userID != null) ?
+                  <div className="mt-2 flex items-center">
+                    <span className="text-yellow-500">
+                      {[...Array(rating)].map((_, index) => (
+                        <svg
+                        key={index}
+                        className="h-4 w-4 fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M19.968,7.52a.872.872,0,0,0-.672-.595L13.445,5.729,10.87.712a.863.863,0,0,0-1.592,0L6.555,5.729.7,6.926A.862.862,0,0,0,.2,8.764l4.8,4.665L4.236,18.56a.864.864,0,0,0,1.265.912L10,15.479l4.5,2.993a.863.863,0,0,0,1.265-.912l-.965-5.968,4.8-4.665A.866.866,0,0,0,19.968,7.52Z" />
+                      </svg>
+                    ))}
+                  </span>
+                  <span className="ml-2 text-gray-600">{rating} out of 5</span>
+                  <select className="ml-2 border border-gray-400 rounded p-1" value={rating} onChange={handleRatingChange}>
+                    <option value={0}>Select rating</option>
+                    <option value={1}>1 star</option>
+                    <option value={2}>2 stars</option>
+                    <option value={3}>3 stars</option>
+                    <option value={4}>4 stars</option>
+                    <option value={5}>5 stars</option>
+                  </select>
+                  <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    onClick={() => rateProduct(rating, product._id)}>
+                        Rate
+                  </button>
+                  <div>
+                    </div>
+                </div>
+                :
+                (userID == null) ?
+                <button class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                            Can't rate without login
+                </button>
+                :
+                <button class="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                              Already Rated
+                </button>
+
+
+      }
     </div>
             </div>
             
@@ -481,12 +498,9 @@ const CommentSection = () => {
       </button>
     </form>
   )}
-
 </div>
   )
 }
 
 
 export default ProductDetail
-
-

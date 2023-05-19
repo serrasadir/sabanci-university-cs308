@@ -103,13 +103,13 @@ const statusChange =  async (prodid, userid) => {
               ))}
             </div>
             <button 
-            onClick={() => statusChange(order2._id, userID)}
+            onClick={() => statusChange(order2._id, order2.userID)}
             className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
               DELIVER
             </button>
           </div>)
             :
-            (order2.status == "Delivered") ? 
+          
             (<div className="flex justify-between">
             <div>
               <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
@@ -125,8 +125,6 @@ const statusChange =  async (prodid, userid) => {
               ALREADY DELIVERED
             </button>
           </div>)
-          :
-          (<div className="hideDiv"></div>)
             }
             
           </li>

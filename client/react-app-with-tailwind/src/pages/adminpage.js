@@ -102,7 +102,7 @@ const statusChange =  async (prodid, userid) => {
               ))}
             </div>
             <button 
-            onClick={() => statusChange(order2._id, userID)}
+            onClick={() => statusChange(order2._id, order2.userID)}
             className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
               IN TRANSIT
             </button>
@@ -161,4 +161,3 @@ const statusChange =  async (prodid, userid) => {
 </div>
   )
 }
-

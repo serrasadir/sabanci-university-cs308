@@ -6,13 +6,22 @@ const userSchema = new mongoose.Schema({
     password:  {type: String, required: true },
     savedProducts: [{type: mongoose.Schema.Types.ObjectId, ref: "products" }],
     ratedProducts: [{type: mongoose.Schema.Types.ObjectId, ref: "products" }],
-    ordered: [],
+    ordered: 
+    [
+        {
+        order: [],
+        userID: {type: mongoose.Schema.Types.ObjectId, ref: "users"},
+        status: {type: String},
+        total: {type: Number}
+        }
+    ],
     address: {type: String, required: false, default: ""},
     city: {type: String, required: false, default: ""},
     cardNumber: {type: String, required: false, default: ""},
 
 
 });
+
 
 export const UserModel = mongoose.model("users", userSchema);
 

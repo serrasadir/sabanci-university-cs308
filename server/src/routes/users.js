@@ -68,24 +68,6 @@ router.post("/paymentinfo", async (req, res) => {
    res.json({message: "User infos saved!"});
 });
 
-router.post("/orderUserTransit", async (req, res) => {
-   const {userID } = req.body;
-  
-   const user = await UserModel.findById({ _id: userID });
-   
-   if (!user)  
-   {
-       return res.json({message: "User does not exist!"});     
-   }
-   const hashednumber = await bcrypt.hash(cardNumber, 10);
-
-   user.ordered[ordered.length-1].forEach(order => {
-      order.status = "In-transit";
-      user.save();
-   });
-   res.json({message: "User in Transit!"});
-});
-
 
 router.get("/getpdf/:userID", async (req, res) => {
    const {userID} = req.params;
@@ -188,6 +170,26 @@ router.get("/order_history/:userid", async (req, res) => {
    }
  });
  
+
+ router.get("get_user/:userid", async (req, res) => { 
+  const {userid} = req.params;
+  console.log(iamhere)
+  try 
+  {
+       console.log(product_id);
+       const response = await UserModel.findOne({_id: userid })
+       console.log(response)
+       if(!response){
+        res.sendStatus(404);
+               }
+       res.json(response);        
+  }
+  catch (err) 
+  {
+       res.json(err);
+  }
+});
+
  export { router as userRouter };
  
 

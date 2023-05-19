@@ -17,7 +17,8 @@ const ProductSchema = new mongoose.Schema({
              type: Number
           } 
     ],
-    rating: {type:Number, default: 0},
+    rating_sum: {type:Number, default: 0},
+    rating_result: {type:Number, default: 0},
     warranty: {type: Number, required: false},
     userOwner: {type: mongoose.Schema.Types.ObjectId, ref: "users", required: true},
 });

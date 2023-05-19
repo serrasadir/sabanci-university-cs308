@@ -68,42 +68,46 @@ router.put("/", async (req, res) => {
 
   router.put("/rate", async (req, res) => {
    
-   try 
-   {
-    const product = await ProductModel.findById(req.body.prodid);
-    const user = await UserModel.findById(req.body.userID);
-    const rating = await req.body.rating2;
-     user.ratedProducts.push(product);
-     await user.save();
-     product.ratings.push(rating);
-     await product.save();
-     console.log("come")
-
-     for (let i=0; i < product.ratings.length; i++)
-       {
-          product.rating += product.ratings[i];
-          console.log("Message", product.rating)
-       }
-    
-    let a = product.ratings.length;
-   
-
-    if(a != 1)
+    try 
     {
-       let b = product.rating / a;
-       product.rating = b;
-    }
-
-    console.log(product.rating);
-    await product.save()
+     const product = await ProductModel.findById(req.body.prodid);
+     const user = await UserModel.findById(req.body.userID);
+     const rating = await req.body.rating2;
+      user.ratedProducts.push(product);
+      await user.save();
+      product.ratings.push(rating);
+      await product.save();
+      console.log("come", product.ratings.length)
      
-    res.json({ ratedProducts: user.ratedProducts });
-   } 
-   catch (err) 
-   {
-     res.json(err);
-   }
- });
+     if(product.ratings.length == 1)
+     {
+       product.rating_sum = rating;
+       await product.save();
+     }
+     else
+     {
+      console.log("old", product.rating_sum) 
+      product.rating_sum += rating;
+      console.log("new", product.rating_sum)
+      await product.save();
+      console.log(product.rating_sum)
+      console.log(product.ratings.length)
+     }
+ 
+     if(product.ratings.length >= 1)
+     {
+       console.log("hello")   
+       product.rating_result = product.rating_sum / product.ratings.length;
+       await product.save();
+     }
+ 
+     res.json({ ratedProducts: user.ratedProducts });
+    } 
+    catch (err) 
+    {
+      res.json(err);
+    }
+  });
 
 
  router.get("/get_result/:prodid", async (req, res) => {
@@ -206,5 +210,6 @@ router.get('/:category', async (req, res) => {
       res.json(err);
   }
 });
+
 
 export {router as productRouter};
