@@ -24,7 +24,7 @@ router.get("/:product_id", async (req, res) => {
     const {product_id} = req.params;
     try 
     {
-         console.log(product_id);
+         console.log("product_id");
          const response = await ProductModel.findOne({product_id: product_id })
          if(!response){
           res.sendStatus(404);
@@ -86,7 +86,7 @@ router.put("/", async (req, res) => {
        }
     
     let a = product.ratings.length;
-    console.log("a:", a)
+   
 
     if(a != 1)
     {
@@ -110,7 +110,7 @@ router.put("/", async (req, res) => {
     try 
     {
        const product = await ProductModel.findById({_id: req.params.prodid})
-       console.log(product)
+       console.log("getresult prod_id")
        res.json(product);
     }
     catch (err)
@@ -167,7 +167,7 @@ router.get("/ratedProducts/:userID", async (req, res) => {
       const ratedProducts = await ProductModel.find({
           _id: { $in: user.ratedProducts },
       });
-      console.log("iamhere")
+      console.log("ratedproducts")
 
       res.json({ ratedProducts });
   }
@@ -194,6 +194,8 @@ router.get('/search', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
 
 router.get('/:category', async (req, res) => {
   try {

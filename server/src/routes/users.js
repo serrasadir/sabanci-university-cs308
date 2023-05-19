@@ -2,7 +2,11 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { UserModel } from "../models/Users.js";
+import sgMail from "@sendgrid/mail";
+import dotenv from "dotenv";
 
+dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 const router = express.Router()
 
@@ -32,21 +36,56 @@ router.post("/paymentinfo", async (req, res) => {
    const {userID, city, address, cardNumber } = req.body;
   
    const user = await UserModel.findById({ _id: userID });
+   /*const emailData = {
+      from: process.env.EMAIL_FROM,
+      to: user.email,
+      subject: "Order status",
+      html: `
+        <h1>Hi ${user.username}, Your order's status is: Accepted/Processing</span></h1>
+       
+        <p>Visit <a href="${process.env.CLIENT_URL}/order_history">your order historyd</a> for more details</p>
+      `,
+    };
+
+    try {
+      await sgMail.send(emailData);
+
+    } catch (err) {
+      console.log(err);
+    }*/
+   if (!user)  
+   {
+       return res.json({message: "User does not exist!"});     
+   }
+   const hashednumber = await bcrypt.hash(cardNumber, 10);
+   
+
+   user.address = address;
+   user.city = city;
+   user.cardNumber = hashednumber;
+   user.save();
+   console.log("User payment Info")
+   res.json({message: "User infos saved!"});
+});
+
+router.post("/orderUserTransit", async (req, res) => {
+   const {userID } = req.body;
+  
+   const user = await UserModel.findById({ _id: userID });
    
    if (!user)  
    {
        return res.json({message: "User does not exist!"});     
    }
    const hashednumber = await bcrypt.hash(cardNumber, 10);
-   console.log(hashednumber);
 
-   user.address = address;
-   user.city = city;
-   user.cardNumber = hashednumber;
-   user.save();
-   console.log("UPDATED")
-   res.json({message: "User infos saved!"});
+   user.ordered[ordered.length-1].forEach(order => {
+      order.status = "In-transit";
+      user.save();
+   });
+   res.json({message: "User in Transit!"});
 });
+
 
 router.get("/getpdf/:userID", async (req, res) => {
    const {userID} = req.params;
@@ -54,7 +93,8 @@ router.get("/getpdf/:userID", async (req, res) => {
    {
         const response = await UserModel.findOne({_id: req.params.userID})
         res.json(response);
-      console.log(response);
+       
+
     } 
     catch (err) 
     {
@@ -86,20 +126,59 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.get("/order_history/:userid", async(req, res) => {
-   try 
-    {
-      const response = await UserModel.findById({_id: req.params.userid});
-      res.json(response);
-      console.log("SERO");
-      console.log(response);
-    } 
-    catch (err) 
-    {
-      res.json(err);
-    }
-})
+router.get("/order_history/:userid", async (req, res) => {
+   try {
+     const response = await UserModel.findById(req.params.userid);
+     const lastOrder = response.ordered[response.ordered.length - 1];
+
+     // Extract the product names from the last order
+     const productDetails = lastOrder.order.map(orderItem => ({
+      name: orderItem.product_name,
+      price: orderItem.price
+    }));
+
+    // Generate the product details HTML string
+    const productDetailsHTML = productDetails.map(
+      product => `<p>${product.name}: ${product.price}$</p>`
+    ).join("");
+
+    // Send the email
+    const emailData = {
+      from: process.env.EMAIL_FROM,
+      to: response.email,
+      subject: "Order status",
+      html: `
+        <h1>Hi ${response.username}, Your order's status is: Accepted/Processing</span></h1>
+        <p>Your order delivery address: ${response.address}</span></p>
+        <p>Total cost of  your order: ${lastOrder.total}$, Here is your oder list:</span></p>
+        ${productDetailsHTML}
+        <p>Visit <a href="${process.env.CLIENT_URL}/order_history">your order history</a> for more details</p>
+      `,
+    };
+
+ 
+     try {
+       await sgMail.send(emailData);
+       console.log("Email sent successfully");
+ 
+       // Send the response after the email is sent
+       res.json(response);
+     } catch (err) {
+       console.log(err);
+       res.status(500).json({ error: "Failed to send email" });
+     }
+   } catch (err) {
+     console.error(err);
+     res.status(500).json({ error: "Internal server error" });
+   }
+ });
+ 
+ export { router as userRouter };
+ 
 
 
-
-export {router as userRouter};
+ /*order[order.length-1].order.forEach((o)=> {
+          `
+         <h1>Product Name: ${o.product_name},  Price:  ${o.price}$</span></h1>
+       `
+       }) */ 

@@ -75,6 +75,9 @@ export const SingleProduct = ({prod}) => {
         </button>
       </div>
     ) : (
+      <div class="flex items-center">
+      <p class="text-sm"> {prod.stock} left </p>
+     
       <button onClick={() => {
         dispatch({
           type:"ADD_TO_CART",
@@ -83,6 +86,7 @@ export const SingleProduct = ({prod}) => {
       }} class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
         Add to Cart 
       </button>
+      </div>
     )
   )}
 </div>

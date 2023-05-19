@@ -102,6 +102,7 @@ export const PaymentDone = () => {
           setUsername(response.data.username);
           setAddress(response.data.address);
           setCity(response.data.city);
+          
         } 
         catch (err)
         {

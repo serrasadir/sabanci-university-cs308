@@ -8,6 +8,7 @@ import { Getprodid2 } from "../hooks/getprodid2"
 import { GetUserName } from "../hooks/getusername"
 
 
+
 /*const ProductDetail = async () => {
     /*const [products, setProducts] = useState([]);*/
     //const {productId} = useParams();
@@ -257,12 +258,6 @@ function ProductDetail(props) {
                     Already saved
                 </button>
               }
-
-
-             
-
-              
-
             </div>
   
             {/* Options */}
@@ -486,6 +481,7 @@ const CommentSection = () => {
       </button>
     </form>
   )}
+
 </div>
   )
 }
