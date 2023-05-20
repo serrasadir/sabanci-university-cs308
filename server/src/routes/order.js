@@ -13,30 +13,29 @@ sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 
 router.post("/save_order", async (req, res) => {
-    const order = new OrderModel(req.body);
-    let a = []
-    a = req.body.order;
-    order.total = req.body.total;
-    await order.save();
-    console.log("ORDER SAVED");
-        try 
-        {
-            
-             for (let i = 0; i < a.length ;i++) {
-               const product = await ProductModel.findById(a[i]._id)
-               product.stock--;
-               product.save();
-             }
-             const user = await UserModel.findById(req.body.userID)
-             user.ordered.push(req.body);
-             user.save();
-             const response = await order.save();
-             res.json(response);
-        }
-        catch (err) 
-        {
-             res.json(err);
-        }   
+  const order = new OrderModel(req.body);
+  let a = []
+  a = req.body.order;
+  order.total = req.body.total;
+  console.log(req.body)
+  await order.save();
+      try 
+      {
+           for (let i = 0; i < a.length; i++) {
+             const product = await ProductModel.findById(a[i]._id)
+             product.stock--;
+             product.save();
+           }
+           const user = await UserModel.findById(req.body.userID)
+           user.ordered.push(order);
+           user.save();
+           const response = await order.save();
+           res.json(response);
+      }
+      catch (err) 
+      {
+           res.json(err);
+      }   
 });
 
 
@@ -102,80 +101,81 @@ router.put("/refund/:order_id/:userid", async(req, res) => {
 
 
 router.put("/in_transit/:order_id/:userid", async(req, res) => {
-    const { order_id, userid } = req.params;
-    try 
-    {
-        const response = await OrderModel.findById({_id: order_id});      
-        const user = await UserModel.findById({_id: userid});
-        response.status = "In-Transit";
-        await response.save();
-        console.log("hi")
-        console.log("BURASIIIIIIIIIIIIIIIII",response._id)
-        for (let i = 0; i < user.ordered.length; i++) {
-            console.log(i)
-           if ((user.ordered[i]._id).equals(response._id)) {
-             console.log("Old status:", user.ordered[i].status);
-             console.log("Order ID:", user.ordered[i]._id);
-             console.log("Total value:", user.ordered[i].total);
-             console.log("Order ID from params:", order_id);
-             user.ordered[i].status = "In-Transit";
-             user.save();
-             console.log("New status:", user.ordered[i].status);
-             console.log("Status changed");
-           }
-       }
+  const { order_id, userid } = req.params;
+  try 
+  {
+      const response = await OrderModel.findById({_id: order_id});      
+      const user = await UserModel.findById({_id: userid});
+      response.status = "In-Transit";
+      await response.save();
+      console.log("hi")
+      console.log(response._id)
+      for (let i = 0; i < user.ordered.length; i++) {
+        console.log(user.ordered[i]._id)
+        console.log(response._id)
+         if ((user.ordered[i]._id).equals(response._id)) {
+           console.log("Old status:", user.ordered[i].status);
+           console.log("Order ID:", user.ordered[i]._id);
+           console.log("Total value:", user.ordered[i].total);
+           console.log("Order ID from params:", order_id);
+           user.ordered[i].status = "In-Transit";
+           user.save();
+           console.log("New status:", user.ordered[i].status);
+           console.log("Status changed");
+         }
+     }
+
+     await user.save();
+     console.log("User saved successfully");
+
+     res.json(response);
+  }
+  catch (err)
+  {
+      res.json(err);
+  }
+});
  
-       await user.save();
-       console.log("User saved successfully");
- 
-       res.json(response);
-    }
-    catch (err)
-    {
-        res.json(err);
-    }
- });
  
  
- 
- router.put("/deliver/:order_id/:userid", async(req, res) => {
-   const { order_id, userid } = req.params;
-   try 
-   {
-       console.log(order_id);
-       console.log(userid);
-       const response = await OrderModel.findById({_id: order_id});      
-       console.log(response)
-       const user = await UserModel.findById({_id: userid});
-       response.status = "Delivered";
-       await response.save();
-       console.log("hi")
-       console.log(response.userID)
-       console.log(order_id)
-       console.log(response._id)
-       for (let i = 0; i < user.ordered.length; i++) {
-          if ((user.ordered[i]._id).equals(response._id)) {
-            console.log("Old status:", user.ordered[i].status);
-            console.log("Order ID:", user.ordered[i]._id);
-            console.log("Total value:", user.ordered[i].total);
-            console.log("Order ID from params:", order_id);
-            user.ordered[i].status = "Delivered";
-            await user.save();
-            console.log("New status:", user.ordered[i].status);
-            console.log("Status changed");
-          }
-      }
- 
-      await user.save();
-      console.log("User saved successfully");
- 
-      res.json(response);
-   }
-   catch (err)
-   {
-       res.json(err);
-   }
- 
- });
+router.put("/deliver/:order_id/:userid", async(req, res) => {
+  const { order_id, userid } = req.params;
+  try 
+  {
+      console.log(order_id);
+      console.log(userid);
+      const response = await OrderModel.findById({_id: order_id});      
+      const user = await UserModel.findById({_id: userid});
+      response.status = "Delivered";
+      await response.save();
+      console.log("hi")
+      console.log(response.userID)
+      console.log(order_id)
+      console.log(response._id)
+      for (let i = 0; i < user.ordered.length; i++) {
+         if ((user.ordered[i]._id).equals(response._id)) {
+          
+           console.log("Old status:", user.ordered[i].status);
+           console.log("Order ID:", user.ordered[i]._id);
+           console.log("Total value:", user.ordered[i].total);
+           console.log("Order ID from params:", order_id);
+           user.ordered[i].status = "Delivered";
+           await user.save();
+           console.log("New status:", user.ordered[i].status);
+           console.log("Status changed");
+         }
+     }
+
+     await user.save();
+     console.log("User saved successfully");
+
+     res.json(response);
+  }
+  catch (err)
+  {
+      res.json(err);
+  }
+
+});
 
 export {router as OrderRouter};

@@ -181,35 +181,6 @@ router.get("/ratedProducts/:userID", async (req, res) => {
   }
 });
 
-router.get('/search', async (req, res) => {
-  try {
-    const query = req.query.q;
-    console.log("searched");
-    console.log(query);
-    const products = await ProductModel.find({
-      $or: [
-        { product_name: { $regex: query, $options: 'i' } },
-        { description: { $regex: query, $options: 'i' } }
-      ]
-    });
-    res.json(products);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-
-
-router.get('/:category', async (req, res) => {
-  try {
-      const response = await ProductModel.find({ category: req.params.category }); 
-      res.json(response);        
-      console.log(response);
-  } catch (err) {
-      res.json(err);
-  }
-});
 
 
 export {router as productRouter};

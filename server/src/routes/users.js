@@ -68,6 +68,26 @@ router.post("/paymentinfo", async (req, res) => {
    res.json({message: "User infos saved!"});
 });
 
+router.get("get_user/:userid", async (req, res) => { 
+  const {userid} = req.params;
+  console.log(iamhere)
+  try 
+  {
+       console.log(product_id);
+       const response = await UserModel.findOne({_id: userid })
+       console.log(response)
+       if(!response){
+        res.sendStatus(404);
+               }
+       res.json(response);        
+  }
+  catch (err) 
+  {
+       res.json(err);
+  }
+});
+
+
 
 router.get("/getpdf/:userID", async (req, res) => {
    const {userID} = req.params;
