@@ -67,6 +67,18 @@ const refreshPage = () => {
   }
 
 
+  const sendEmail = async (userID) => {
+    try 
+    {
+        const response = await axios.get(`http://localhost:3001/auth/mail/${userID}`);
+    }
+    catch (err)
+    {
+        console.error(err);
+    }
+  };
+
+
 const handleSubmit = async (event) => {
     event.preventDefault();
     try 
@@ -82,6 +94,7 @@ const handleSubmit = async (event) => {
          city,
          cardNumber,
          }); 
+         sendEmail(userID);
          navigate("/payment_success")
          refreshPage();
     }

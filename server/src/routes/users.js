@@ -114,6 +114,7 @@ router.get("/mail/:userid", async (req, res) => {
 
      const lastOrder = response.ordered[response.ordered.length - 1];
 
+
      // Extract the product names from the last order
      const productDetails = lastOrder.order.map(orderItem => ({
       name: orderItem.product_name,

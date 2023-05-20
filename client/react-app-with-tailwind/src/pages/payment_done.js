@@ -5,65 +5,6 @@ import {  useState, useEffect } from "react";
 import { GetUserID } from '../hooks/useGetuserID';
 import axios from 'axios';
 
-export function downloadPDF(address, username, city, order2) {
-  // Create a new jsPDF instance
-  const doc = new jsPDF();
-  
-  // Set the font and styles
-  doc.setFont('New York Times Roman', 'bold');
-  doc.setFontSize(20);
-  doc.setTextColor(51, 102, 204);
-  
-  // Add the invoice title
-  doc.text(`Invoice`, 10, 20);
-  
-  // Set the font for the user details
-  doc.setFont('New York Times Roman', 'normal');
-  doc.setFontSize(14);
-  
-  // Add the user details
-  doc.setTextColor(0, 0, 0);
-  
-  doc.text(`Customer Name: ${username}`, 10, 35);
-  doc.text(`City: ${city}`, 10, 45);
-  doc.text(`Address: ${address}`, 10, 55);
-  
-  // Set the font and styles for the order details
-  doc.setFont('New York Times Roman', 'bold');
-  doc.setFontSize(14);
-  doc.setTextColor(51, 51, 51);
-  
-  // Calculate the initial y-position for the order items
-  let yPos = 80;
-  
-  // Iterate over the order items and add them to the PDF
-  order2[order2.length - 1].order.forEach((o, index) => {
-    const productName = o.product_name;
-    const price = o.price;
-    doc.setFont('New York Times Roman', 'bold');
-    doc.text(`Product ${index + 1}:`, 10, yPos);
-    doc.setFont('New York Times Roman', 'normal');
-    doc.text(productName, 40, yPos);
-    doc.text(`${price}$`, 150, yPos);
-    
-    yPos += 15;
-  });
-  
-  // Set the font and styles for the total amount
-  doc.setFont('New York Times Roman', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(51, 102, 204);
-  
-  // Calculate the total amount
-  
-  // Add the total amount
-  doc.text(`Total Amount: ${order2[order2.length-1].total}$`, 10, yPos + 20);
-  doc.text("Wave Shopping hope to see you again!", 60, yPos + 30)
-  
-  // Save the PDF
-  doc.save('invoice.pdf');
-}
-
 
 
 export const PaymentDone = () => {
@@ -74,31 +15,19 @@ export const PaymentDone = () => {
     const [username, setUsername] = useState("")
   
     const userID = GetUserID();
+
+
     
-
-
       
-       
-
     useEffect(() => {
 
       console.log(userID);
-      const fetchData = async (userID) => {
-        try 
-        {
-            const response = await axios.get(`http://localhost:3001/auth/mail/${userID}`);
-            setOrder(order => [...response.data.ordered]);
-        }
-        catch (err)
-        {
-            console.error(err);
-        }
-      };
 
       const fetchUser = async (userID) => {
         try 
         {
           const response = await axios.get(`http://localhost:3001/auth/getpdf/${userID}`);
+          setOrder(order => [...response.data.ordered]);
           setUsername(response.data.username);
           setAddress(response.data.address);
           setCity(response.data.city);
@@ -111,10 +40,10 @@ export const PaymentDone = () => {
       }
 
       fetchUser(userID);
-      fetchData(userID);
     }, [userID])
 
     console.log(order)
+
 
   return (
     <div class="bg-gray-100 h-screen">
@@ -146,3 +75,66 @@ export const PaymentDone = () => {
   )
 }
 
+
+export function downloadPDF(address, username, city, order2) {
+  // Create a new jsPDF instance
+  const doc = new jsPDF();
+  
+  // Set the font and styles
+  doc.setFont('New York Times Roman', 'bold');
+  doc.setFontSize(20);
+  doc.setTextColor(51, 102, 204);
+  
+  // Add the invoice title
+  doc.text(`Invoice`, 10, 20);
+  
+  // Set the font for the user details
+  doc.setFont('New York Times Roman', 'normal');
+  doc.setFontSize(14);
+  
+  // Add the user details
+  doc.setTextColor(0, 0, 0);
+  
+  doc.text(`Customer Name: ${username}`, 10, 35);
+  doc.text(`City: ${city}`, 10, 45);
+  doc.text(`Address: ${address}`, 10, 55);
+  
+  // Set the font and styles for the order details
+  doc.setFont('New York Times Roman', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(51, 51, 51);
+  
+  // Calculate the initial y-position for the order items
+  let yPos = 80;
+
+  console.log(order2.total)
+  
+  // Iterate over the order items and add them to the PDF
+  order2[order2.length - 1].order.forEach((o, index) => {
+    console.log(o.total)
+
+    const productName = o.product_name;
+    const price = o.price;
+    doc.setFont('New York Times Roman', 'bold');
+    doc.text(`Product ${index + 1}:`, 10, yPos);
+    doc.setFont('New York Times Roman', 'normal');
+    doc.text(productName, 40, yPos);
+    doc.text(`${price}$`, 150, yPos);
+    
+    yPos += 15;
+  });
+  
+  // Set the font and styles for the total amount
+  doc.setFont('New York Times Roman', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(51, 102, 204);
+  
+  // Calculate the total amount
+  
+  // Add the total amount
+  doc.text(`Total Amount: ${order2[order2.length-1].total}$`, 10, yPos + 20);
+  doc.text("Wave Shopping hope to see you again!", 60, yPos + 30)
+  
+  // Save the PDF
+  doc.save('invoice.pdf');
+}
