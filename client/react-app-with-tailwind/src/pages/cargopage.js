@@ -60,7 +60,7 @@ export const Cargopage = () => {
 const deleteUser = async (userId) => {
   return await axios.delete(`http://localhost:3001/comment/${userId}`)
     .then((response) => {
-      console.log(response.data);
+      //(response.data);
       alert("Deleted")
     })
     .catch((error) => {

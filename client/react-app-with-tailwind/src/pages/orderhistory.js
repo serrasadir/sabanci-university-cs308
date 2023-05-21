@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { GetUserID } from "../hooks/useGetuserID";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import React from 'react';
 
 
 const deleteUser = async (userId) => {
   return await axios.delete(`http://localhost:3001/comment/${userId}`)
     .then((response) => {
-      console.log(response.data);
+      //console.log(response.data);
       alert("Deleted")
     })
     .catch((error) => {
@@ -15,8 +16,16 @@ const deleteUser = async (userId) => {
     });
 };
 
-
-
+const sendEmail = async (userID) => {
+  try 
+  {
+      const response = await axios.get(`http://localhost:3001/auth/mail/${userID}`);
+  }
+  catch (err)
+  {
+      console.error(err);
+  }
+};
 
 
 export const OrderHistory = () => {
@@ -24,6 +33,8 @@ export const OrderHistory = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);
   const [selectedComment, setSelectedComment] = useState('');
+
+
 
   const handleOpenDropdown = (orderId) => {
     setSelectedOrderId(orderId === selectedOrderId ? null : orderId);
@@ -56,6 +67,8 @@ export const OrderHistory = () => {
     const [ratedProducts, setRatedProducts] = useState([]);
     const [rating, setRating2] = useState(0);
 
+
+
   /*const handleRatingChange = (event) => {
     const value = parseInt(event.target.value);
     setRating2(value);
@@ -80,7 +93,7 @@ export const OrderHistory = () => {
          fetchData(userID);
     }, [userID])
 
-    console.log(order)
+    //console.log(order)
      
     const rateProduct = async (rating2, prodid) => {
       try 
@@ -99,7 +112,37 @@ export const OrderHistory = () => {
       }
     };
 
-    console.log(order)
+    const refreshPage = () => {
+      window.location.reload(true);
+    }
+    const refund = async (prodid, userid) => {
+            return await axios.put(`http://localhost:3001/order/waitingrefund/${prodid}/${userid}`)
+            .then((response) => {
+              //console.log(response.data);
+              //alert("Refund request sended")
+              sendEmail(userid)
+              refreshPage();
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+
+    }
+
+    const Cancel = async (prodid, userid) => {
+      return await axios.put(`http://localhost:3001/order/waitingcancel/${prodid}/${userid}`)
+      .then((response) => {
+        //console.log(response.data);
+        //alert("Refund request sended")
+        sendEmail(userid)
+        refreshPage();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+}
+    //console.log(order)
 
     return (
       <div className="py-4">
@@ -109,6 +152,43 @@ export const OrderHistory = () => {
             <div>
               <p className="text-lg font-semibold leading-6 text-gray-900">Order ID: {o._id}</p>
               <p className="text-sm text-gray-500">{o.status}</p>
+              <div>        
+                   {o.status == "Delivered" ?
+                   (<button
+                    onClick={() => refund(o._id, o.userID)}
+                    className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+                      Refund
+                     </button>)
+                     :
+                     o.status == "Refunded"?
+                     (<button 
+                      className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                      Already Refunded </button>) 
+                      :
+                      o.status == "Waiting For Refund"?
+                       (<button 
+                        className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                        Waiting For Refund </button>) 
+                     :
+                     o.status == "Waiting For Cancel"?
+                     (<button 
+                      className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                      Waiting For Cancel</button>) 
+                   :
+                   o.status == "Canceled"?
+                   (<button 
+                    className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                    Already Canceled </button>) 
+                   :
+                     (<button
+                      onClick={() => Cancel(o._id, o.userID)}
+                      className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+                        Cancel the order
+                       </button>)}
+                   </div>
+            </div>
+            <div> 
+
             </div>
             <div className="mt-4">
               {o.order.map((o_list) => (
@@ -137,7 +217,9 @@ export const OrderHistory = () => {
                         <path d="M10 14l6-6H4l6 6z" />
                       </svg>
                     )}
-                  </div>
+                   </div>
+
+
                   {selectedOrderId === o_list._id && o.status === 'Delivered' && (
                     <div className="bg-gray-100 px-4 py-2 mt-2">
                       <div className="flex items-center">

@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema({
         order: [],
         userID: {type: mongoose.Schema.Types.ObjectId, ref: "users"},
         status: {type: String},
-        total: {type: Number}
+        total: {type: Number},
+        date1: {type: Date}
         }
     ],
     address: {type: String, required: false, default: ""},

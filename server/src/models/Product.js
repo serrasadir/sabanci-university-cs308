@@ -21,6 +21,6 @@ const ProductSchema = new mongoose.Schema({
     rating_result: {type:Number, default: 0},
     warranty: {type: Number, required: false},
     userOwner: {type: mongoose.Schema.Types.ObjectId, ref: "users", required: true},
-});
+},{ timestamps: true });
 
 export const ProductModel = mongoose.model("products", ProductSchema);

@@ -6,6 +6,6 @@ const CommentSchema = new mongoose.Schema({
     prod_id: {type: mongoose.Schema.Types.ObjectId, ref: "products", required: true},
     product_id_real: {type: String, ref: "products", required: true},
     user_name: {type: String, ref: "users", required: true}
-});
+},{ timestamps: true });
 
 export const CommentModel = mongoose.model("comments", CommentSchema);

@@ -152,7 +152,7 @@ router.get("/mail/:userid", async (req, res) => {
       to: response.email,
       subject: "Order status",
       html: `
-        <h1>Hi ${response.username}, Your order's status is: Accepted/Processing</span></h1>
+        <h1>Hi ${response.username}, Your order status is: ${lastOrder.status}</span></h1>
         <p>Your order delivery address: ${response.address}</span></p>
         <p>Total cost of  your order: ${lastOrder.total}$, Here is your oder list:</span></p>
         ${productDetailsHTML}
@@ -164,7 +164,7 @@ router.get("/mail/:userid", async (req, res) => {
      try {
        await sgMail.send(emailData);
        console.log("Email sent successfully");
-       console.log(response);
+       //console.log(response);
        res.json(response);
 
      } catch (err) {
@@ -199,7 +199,7 @@ router.get("/order_history/:userid", async (req, res) => {
   {
        console.log(product_id);
        const response = await UserModel.findOne({_id: userid })
-       console.log(response)
+       //console.log(response)
        if(!response){
         res.sendStatus(404);
                }

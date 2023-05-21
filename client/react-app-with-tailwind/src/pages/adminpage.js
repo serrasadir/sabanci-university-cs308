@@ -41,6 +41,16 @@ export const Adminpage = () => {
     fetchOrders();
     fetchComments();
  }, []);
+const sendEmail = async (userID) => {
+    try 
+    {
+        const response = await axios.get(`http://localhost:3001/auth/mail/${userID}`);
+    }
+    catch (err)
+    {
+        console.error(err);
+    }
+  };
 
 
  const handleSubmitPost = async (comment) => {
@@ -59,7 +69,7 @@ export const Adminpage = () => {
 const deleteUser = async (userId) => {
   return await axios.delete(`http://localhost:3001/comment/${userId}`)
     .then((response) => {
-      console.log(response.data);
+      //console.log(response.data);
       alert("Deleted")
     })
     .catch((error) => {
@@ -69,17 +79,46 @@ const deleteUser = async (userId) => {
 
 
 const statusChange =  async (prodid, userid) => {
+
+
   return await axios.put(`http://localhost:3001/order/in_transit/${prodid}/${userid}`)
   .then((response) => {
-    console.log(response.data);
-    alert("Changed to In-Transit")
+    //console.log(response.data);
+    alert("Changed status")
   })
   .catch((error) => {
     console.error(error);
   });
 }
 
+const Refund =  async (prodid, userid) => {
+
+
+  return await axios.put(`http://localhost:3001/order/refund/${prodid}/${userid}`)
+  .then((response) => {
+    //console.log(response.data);
+    sendEmail(userid)
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+  
+}
+
  
+const Cancel =  async (prodid, userid) => {
+
+
+  return await axios.put(`http://localhost:3001/order/cancel/${prodid}/${userid}`)
+  .then((response) => {
+    //console.log(response.data);
+    sendEmail(userid)
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+  
+}
 
 
   return (
@@ -104,10 +143,43 @@ const statusChange =  async (prodid, userid) => {
             <button 
             onClick={() => statusChange(order2._id, order2.userID)}
             className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
-              IN TRANSIT
+              {order2.status}
             </button>
           </div>)
-            : 
+          : order2.status == "Waiting For Cancel" ? 
+          (<div className="flex justify-between">
+          <div>
+            <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
+            {order2.order.map((product) => (
+              <div key={product._id} className="mt-1">
+                <p className="text-sm font-semibold text-gray-700">{product.product_name}</p>
+                <p className="text-xs text-gray-500">{product.category}</p>
+              </div>
+            ))}
+          </div>
+          <button 
+          onClick={() => Cancel(order2._id, order2.userID)}
+          className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+            {order2.status}
+          </button>
+        </div>)
+            : order2.status == "Waiting For Refund" ? 
+            (<div className="flex justify-between">
+            <div>
+              <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
+              {order2.order.map((product) => (
+                <div key={product._id} className="mt-1">
+                  <p className="text-sm font-semibold text-gray-700">{product.product_name}</p>
+                  <p className="text-xs text-gray-500">{product.category}</p>
+                </div>
+              ))}
+            </div>
+            <button 
+            onClick={() => Refund(order2._id, order2.userID)}
+            className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+              {order2.status}
+            </button>
+          </div>):
             (<div className="flex justify-between">
             <div>
               <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
@@ -122,11 +194,9 @@ const statusChange =  async (prodid, userid) => {
             className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
               ALREADY PROCESSED
             </button>
-          </div>)
-            }
-            
+          </div>)}
           </li>
-        ))}
+      ))}
       </ul>
     </div>
     <div className="bg-white shadow rounded-lg p-6">

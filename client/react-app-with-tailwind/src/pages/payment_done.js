@@ -42,7 +42,7 @@ export const PaymentDone = () => {
       fetchUser(userID);
     }, [userID])
 
-    console.log(order)
+    //console.log(order)
 
 
   return (
