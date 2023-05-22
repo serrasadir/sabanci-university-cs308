@@ -49,6 +49,7 @@ const Payment = (props) => {
   let userid = GetUserID();
 
   const [order2, setOrder] = useState({
+    delivery_address: address,
     order: a,
     userID: userid,
     status: "Processing",
@@ -59,7 +60,15 @@ const Payment = (props) => {
 
 useEffect(() => {
   setUserID(window.localStorage.getItem("userID"));
-}, [])
+  setOrder((prevOrder) => ({
+    ...prevOrder,
+    delivery_address: address,
+  }));
+}, [address])
+
+const addressChange = (event) => {
+    window.localStorage.setItem("address", event.target.value)
+}
 
 
 const refreshPage = () => {

@@ -6,7 +6,7 @@ const OrderSchema = new mongoose.Schema({
     userID: {type: mongoose.Schema.Types.ObjectId, ref: "users", required: true},
     status: { type: String, required: false, default: "Processing"},
     total: { type: Number },
-    deliver_address: {type: String, required: false},
+    delivery_address: {type: String, required: false},
     date1: {type: Date}
 }, { timestamps: true });
 

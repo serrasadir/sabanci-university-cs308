@@ -41,6 +41,8 @@ export const Adminpage = () => {
     fetchOrders();
     fetchComments();
  }, []);
+
+
 const sendEmail = async (userID) => {
     try 
     {
@@ -53,17 +55,25 @@ const sendEmail = async (userID) => {
   };
 
 
- const handleSubmitPost = async (comment) => {
-  try 
-  {
-       await axios.post("http://localhost:3001/comment/post_comment", comment);
-       alert("your comment sent to product");
-  }
-  catch (err)
-  {
-    console.error(err);
-  }
-};
+  const handleSubmitPost = async (comment) => {
+    try 
+    {
+         await axios.post("http://localhost:3001/comment/post_comment", comment);
+         alert("your comment sent to product");
+         return await axios.delete(`http://localhost:3001/comment/${comment._id}`)
+      .then((response) => {
+        console.log(response.data);
+        alert("Deleted")
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+    catch (err)
+    {
+      console.error(err);
+    }
+  };
 
 
 const deleteUser = async (userId) => {
@@ -98,11 +108,16 @@ const Refund =  async (prodid, userid) => {
   .then((response) => {
     //console.log(response.data);
     sendEmail(userid)
+    refreshPage();
   })
   .catch((error) => {
     console.error(error);
   });
   
+}
+
+const refreshPage = () => {
+  window.location.reload(true);
 }
 
  
@@ -113,6 +128,7 @@ const Cancel =  async (prodid, userid) => {
   .then((response) => {
     //console.log(response.data);
     sendEmail(userid)
+    refreshPage();
   })
   .catch((error) => {
     console.error(error);
@@ -143,7 +159,7 @@ const Cancel =  async (prodid, userid) => {
             <button 
             onClick={() => statusChange(order2._id, order2.userID)}
             className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
-              {order2.status}
+              IN-TRANSIT
             </button>
           </div>)
           : order2.status == "Waiting For Cancel" ? 

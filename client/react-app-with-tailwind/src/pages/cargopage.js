@@ -89,7 +89,7 @@ const statusChange =  async (prodid, userid) => {
     <div className="bg-white shadow rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4">ORDERS</h2>
       <ul className="divide-y divide-gray-200">
-        {order.map((order2) => (
+      {order.map((order2) => (
           <li key={order2._id} className="py-4">
             { order2.status == "In-Transit" ? 
             (<div className="flex justify-between">
@@ -109,7 +109,7 @@ const statusChange =  async (prodid, userid) => {
             </button>
           </div>)
             :
-          
+            order2.status == "Delivered" ?
             (<div className="flex justify-between">
             <div>
               <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
@@ -125,7 +125,25 @@ const statusChange =  async (prodid, userid) => {
               ALREADY DELIVERED
             </button>
           </div>)
-            }
+          :
+          (
+            <div className="flex justify-between">
+            <div>
+            <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
+            {order2.order.map((product) => (
+              <div key={product._id} className="mt-1">
+                <p className="text-sm font-semibold text-gray-700">{product.product_name}</p>
+                <p className="text-xs text-gray-500">{product.category}</p>
+              </div>
+            ))}
+          </div>
+          <button 
+          className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+            WAITING FOR TRANSIT
+          </button>
+        </div>
+            )
+           }
             
           </li>
         ))}

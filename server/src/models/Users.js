@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
         userID: {type: mongoose.Schema.Types.ObjectId, ref: "users"},
         status: {type: String},
         total: {type: Number},
-        date1: {type: Date}
+        date1: {type: Date},
+        delivery_address: {type: String}
         }
     ],
     address: {type: String, required: false, default: ""},

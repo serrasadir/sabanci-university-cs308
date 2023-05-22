@@ -17,6 +17,7 @@ router.post("/save_order", async (req, res) => {
   let a = []
   a = req.body.order;
   order.total = req.body.total;
+  order.delivery_address = req.body.delivery_address;
   order.date1 = (Date(order.createdAt))
   console.log(order.date1)
   //order.date1 = new Date(order.createdAt).getTime();
