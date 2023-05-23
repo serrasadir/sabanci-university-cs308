@@ -138,6 +138,12 @@ const Cancel =  async (prodid, userid) => {
 
 
   return (
+    <div className="mt-10">
+      <a 
+      href="./admin_products"
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+   PRODUCTS
+    </a>
     <div className="bg-gray-800 container mx-auto my-10">
   <div className="bg-gray-800 grid grid-cols-1 gap-6 md:grid-cols-2">
     <div className="bg-white shadow rounded-lg p-6">
@@ -244,6 +250,7 @@ const Cancel =  async (prodid, userid) => {
       </ul>
     </div>
   </div>
+</div>
 </div>
   )
 }

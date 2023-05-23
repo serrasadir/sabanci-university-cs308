@@ -64,7 +64,29 @@ export function CartShop() {
                                       <h3>
                                         <a href={`/products/${prod.product_id}`}>{prod.product_name}</a>
                                       </h3>
-                                      <p className="ml-4">{prod.price}</p>
+                                        {prod.discount == true ? 
+                                          (
+                                          <div>
+                                              <p 
+                                                style={{textDecoration: 'line-through'}}
+                                                cclass="text-right font-medium text-gray-900"
+                                                >
+                                                {prod.old_price} TL
+                                              </p>
+                                            <div className="space-y-6">
+                                              <p class="text-right font-medium text-gray-900">{prod.price} TL</p>
+                                            </div>
+                                          </div>
+                                          )
+                                          :
+                                          (
+                                            
+                                              <div className="space-y-6">
+                                                <p class="text-right font-medium text-gray-900">{prod.price} TL</p>
+                                              </div>
+                                          
+                                          )
+                                          }
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">{prod.color}</p>
                                   </div>

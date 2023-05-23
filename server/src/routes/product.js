@@ -3,8 +3,13 @@ import mongoose from 'mongoose';
 import { ProductModel } from "../models/Product.js";
 import { UserModel } from '../models/Users.js';
 import { CommentModel } from '../models/Comment.js';
+import sgMail from "@sendgrid/mail";
+import dotenv from "dotenv";
 
 const router = express.Router();
+
+dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 
 
@@ -51,6 +56,74 @@ router.post("/save", async (req, res) => {
 });
 
 
+router.post("/discount/prod", async (req, res) => {
+  console.log("here")
+   try
+   {
+    const product = await ProductModel.findById(req.body.prodid);
+    product.discount = true;
+    product.discount_rate = req.body.discount;
+    product.old_price = product.price;
+    product.price = product.price * (1 - (req.body.discount / 100));
+    await product.save();
+    
+    try {
+      for(let i = 0; i < product.wishlist_users.length; i++)
+      {
+      const user = await UserModel.findById(product.wishlist_users[i]);
+      console.log(user.email)
+
+      const emailData = {
+        from: process.env.EMAIL_FROM,
+        to: user.email,
+        subject: "Discount!!!",
+        html: `
+          <h1>Hi ${user.username}, </span></h1>
+          <p>Product: ${product.product_name} that you added to your wishlist has ${product.discount_rate} discount right now!!!</span></p>
+        `,
+      };
+
+      await sgMail.send(emailData);
+      console.log("Email sent successfully");
+      //console.log(response);
+      res.json(user);
+      }
+
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Failed to send email" });
+    }
+   }
+   catch (err)
+   {
+    res.json(err);
+
+   }
+})
+
+router.put("/discount/reset", async (req, res) => {
+  console.log("here")
+   try
+   {
+    
+    const product = await ProductModel.findById(req.body.prodid);
+    product.discount = false;
+    product.price = product.old_price;
+    product.old_price = 0;
+    product.discount_rate = 0;
+    await product.save();
+    
+    
+    res.json(prod);
+   }
+   catch (err)
+   {
+    res.json(err);
+
+   }
+})
+
+
 router.put("/", async (req, res) => {
      const product = await ProductModel.findById(req.body.prodid);
      const user = await UserModel.findById(req.body.userID);
@@ -65,6 +138,20 @@ router.put("/", async (req, res) => {
       res.json(err);
     }
   });
+
+  router.put("/wishlist_user", async (req, res) => {
+    const product = await ProductModel.findById(req.body.prodid);
+   try 
+   {
+     product.wishlist_users.push(req.body.userID); 
+     await product.save();
+     res.json({ wishlist_users: user.wishlist_users });
+   } 
+   catch (err) 
+   {
+     res.json(err);
+   }
+ });
 
   router.put("/rate", async (req, res) => {
    

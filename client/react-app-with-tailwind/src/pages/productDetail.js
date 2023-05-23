@@ -147,6 +147,22 @@ function ProductDetail(props) {
     }
   };
 
+  const pushUser = async (prodid) => {
+    try 
+    {
+         const response = await axios.put("http://localhost:3001/product/wishlist_user", 
+         {
+          prodid, 
+          userID
+        });
+        alert("Product Saved")
+    }
+    catch (err)
+    {
+      console.error(err);
+    }
+  };
+
 
   const rateProduct = async (rating2, prodid) => {
     try 
@@ -231,17 +247,42 @@ function ProductDetail(props) {
                 </div>
               </div>
               <div className="border-4 border-red-500">
-                <h3 className="sr-only">Color</h3>
-  
-                <div className="space-y-6">
-                <h1 className="border-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl text-right">{product.price} TL</h1>
+                
+                {product.discount == true ? 
+                (
+                <div>
+                    <h1 
+                      style={{textDecoration: 'line-through'}}
+                      className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl text-right"
+                      >
+                      {product.old_price} TL
+                    </h1>
+                    
+                  <div className="space-y-6 flex justify-between">
+                  <div class="p-2 bg-red-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    
+                    <span class="font-semibold mr-2 text-left flex-auto">DISCOUNT!!!</span>
+                    
+                  </div>
+                    <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl text-right">{product.price} TL</h1>
+                  </div>
                 </div>
+                )
+                :
+                (
+                   
+                    <div className="space-y-6">
+                      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl text-right">{product.price} TL</h1>
+                    </div>
+                
+                )
+                }
               </div>
               
               {!isProductSaved(product._id) && (userID != null) ?           
                  <button 
                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
-                 onClick={() => saveProduct(product._id)} 
+                 onClick={() => {saveProduct(product._id); pushUser(product._id);}} 
                  >
                  
                  Add to Wishlist

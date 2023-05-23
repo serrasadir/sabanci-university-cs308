@@ -18,6 +18,8 @@ import { OrderHistory } from "./pages/orderhistory";
 import { Cargopage } from "./pages/cargopage";
 import { PaymentDone } from "./pages/payment_done";
 import { PaymentProcess } from "./pages/payment_process";
+import { AdminProducts } from "./pages/admin_products";
+import ProductDetailAdmin from "./pages/admin_p_detail";
 
 
 
@@ -42,8 +44,10 @@ function App() {
       <Route path="/purchase" element={<Purchase/>} />
       <Route path="/order_history" element={<OrderHistory/>} />
       <Route path="/payment_success" element={<PaymentDone/>} />
+      <Route path="/admin_products" element={<AdminProducts/>} />
       <Route path="/payment_process" element={<PaymentProcess/>} />
       <Route path="/products/:productId" element={<ProductDetail/>} />
+      <Route path="/admin_products/:productId" element={<ProductDetailAdmin/>} />
     </Routes>     
     </Router> 
       

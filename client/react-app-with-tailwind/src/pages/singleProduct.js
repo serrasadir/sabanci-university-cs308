@@ -30,9 +30,19 @@ export const SingleProduct = ({prod}) => {
     <div>
     <div class="w-full bg-gray-200 rounded-md overflow-hidden aspect-w-1 aspect-h-1 min-h-80 lg:aspect-none group-hover:opacity-75 lg:h-80">
   <Link to={`/products/${prod.product_id}`}>
-    <img src={prod.imageUrl} alt={prod.imageAlt} class="w-full h-full object-center object-cover lg:h-full lg:w-full" />
+  {prod.discount == true ? 
+    (
+      <span class="flex bg-red-500 uppercase px-2 py-1 text-xs font-bold mr-3">%{prod.discount_rate} Discount, SHOP NOW!</span>
+    )
+    :
+    (
+      <div></div>
+    )
+    }
+    <img src={prod.imageUrl} alt={prod.imageAlt} class="w-full h-full object-center object-cover lg:h-full lg:w-full" /> 
   </Link>
-</div>
+  </div>
+  
 
 <div class="mt-4 flex justify-between">
   <div>
@@ -41,7 +51,33 @@ export const SingleProduct = ({prod}) => {
     </h3>
     <p class="mt-1 text-sm text-left text-gray-500">{prod.category}</p>
   </div>
-  <p class="text-right font-medium text-gray-900">{prod.price} TL</p>
+  {prod.discount == true ? 
+                (
+                <div>
+                    
+                    <p 
+                      style={{textDecoration: 'line-through'}}
+                      cclass="text-right font-medium text-gray-900"
+                      >
+                      {prod.old_price} TL
+                    </p>
+                  <div className="flex-justify-between">
+                    
+                    <p class="text-right font-medium text-gray-900">{prod.price} TL</p>
+                    
+                  </div>
+                </div>
+                )
+                :
+                (
+                    
+                    <div className="space-y-6">
+                      <p class="text-right font-medium text-gray-900">{prod.price} TL</p>
+                    </div>
+                
+                )
+                }
+  
 </div>
 
 <div>
