@@ -235,12 +235,12 @@ const Cancel =  async (prodid, userid) => {
               <div>
                 <button 
                 onClick = {() => handleSubmitPost(comment)}
-                className="rounded-md bg-indigo-600 text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2" onClick={() => handleSubmitPost(comment)}>
+                className="rounded-md bg-indigo-600 text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
                   SEND
                 </button>
                 <button 
                 onClick = {() => deleteUser(comment._id)}
-                className="rounded-md bg-indigo-600 text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2" onClick={() => deleteUser(comment._id)}>
+                className="rounded-md bg-indigo-600 text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
                   DELETE
                 </button>
               </div>

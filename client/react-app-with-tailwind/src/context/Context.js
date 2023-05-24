@@ -69,7 +69,8 @@ const CartProvider = ({ children }) => {
         byRating: 0,
         searchQuery: "",
         cate: "",
-        sort: "normal"
+        sort: "normal",
+        clear: false
       });
 
   

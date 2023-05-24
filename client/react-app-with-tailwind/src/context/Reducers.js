@@ -44,13 +44,13 @@ export const cartReducer = (state, action) => {
 export const productReducer = (state, action) => {
 	switch (action.type) {
 	  case "SORT_BY_PRICE":
-		    return { ...state, sort: action.payload };
+		    return { ...state, sort: action.payload, clear: false };
 	  case "SORT_BY_RATING":
-			return { ...state, sort_rating: action.payload };
+			return { ...state, sort_rating: action.payload, clear: false };
 	  case "FILTER_BY_SEARCH":
 			return { ...state, searchQuery: action.payload };
 	  case "CLEAR_FILTERS":
-			return { byRating: 0, sort: "normal" };
+			return { byRating: 0, sort: "normal", clear: true };
 	  case "t-shirt":
 			return { ...state, cate: action.payload };
 	  case "pants":

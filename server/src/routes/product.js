@@ -112,14 +112,45 @@ router.put("/discount/reset", async (req, res) => {
     product.old_price = 0;
     product.discount_rate = 0;
     await product.save();
-    
-    
-    res.json(prod);
+    res.json(product);
    }
    catch (err)
    {
     res.json(err);
 
+   }
+})
+
+router.put("/change_price/prod", async (req, res) => {
+  console.log("here")
+   try
+   {
+    
+    const product = await ProductModel.findById(req.body.prodid);
+    product.price = req.body.price;
+    await product.save();
+    res.json(product);
+   }
+   catch (err)
+   {
+    res.json(err);
+   }
+});
+
+router.put("/change_stock/prod", async (req, res) => {
+  console.log("heredasdasda")
+   try
+   {
+    
+    const product = await ProductModel.findById(req.body.prodid);
+    product.stock = product.stock + req.body.stock;
+    console.log(req.body.stock)
+    await product.save();
+    res.json(product);
+   }
+   catch (err)
+   {
+    res.json(err);
    }
 })
 
@@ -138,6 +169,32 @@ router.put("/", async (req, res) => {
       res.json(err);
     }
   });
+
+  router.delete('/delete/:id', (req, res) => {
+    console.log("iamhere");
+    const productId = req.params.id;
+  
+    ProductModel.findOneAndDelete({ _id: productId })
+      .then((deletedProd) => {
+        if (deletedProd) {
+          res.status(200).json({
+            message: 'Product deleted successfully.',
+            deletedProd: deletedProd
+          });
+        } else {
+          res.status(404).json({
+            message: 'Product not found.'
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error occurred while deleting Product:', error);
+        res.status(500).json({
+          message: 'Internal server error.'
+        });
+      });
+  });
+  
 
   router.put("/wishlist_user", async (req, res) => {
     const product = await ProductModel.findById(req.body.prodid);

@@ -58,6 +58,8 @@ function ProductDetailAdmin(props) {
   const [ratedProducts, setRatedProducts] = useState([]);
   const [rating, setRating2] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [stock, setStock] = useState(0);
  
 
 
@@ -146,6 +148,48 @@ function ProductDetailAdmin(props) {
    }
   };
 
+  const changePrice = async (price, prodid) => { 
+    if(price < 1)
+    {alert("Give a price bigger than 0")}
+    else
+    {
+    try 
+    {
+         const response = await axios.put("http://localhost:3001/product/change_price/prod", {      
+         price,
+         prodid,
+    });
+         alert("Price Changed", response)
+
+    }
+    catch (err)
+    {
+      console.error(err);
+    }
+   }
+  };
+
+  const changeStock = async (stock, prodid) => { 
+    if(stock == 0)
+    {alert("Give a stock different than 0")}
+    else
+    {
+    try 
+    {
+         const response = await axios.put("http://localhost:3001/product/change_stock/prod", {      
+         stock,
+         prodid,
+    });
+        alert("Stock changed")
+
+    }
+    catch (err)
+    {
+      console.error(err);
+    }
+   }
+  };
+
   const discountReset = async (prodid2) => {
     console.log("here")
     try 
@@ -165,6 +209,27 @@ function ProductDetailAdmin(props) {
     setDiscount(value);
   };
 
+  const handlePrice = (event) => {
+    const value = parseInt(event.target.value);
+    setPrice(value);
+  };
+
+  const handleStock = (event) => {
+    const value = parseInt(event.target.value);
+    setStock(value);
+  };
+
+
+  const deleteProd = async (prodid) => {
+    try {
+      const response = await axios.delete(`http://localhost:3001/product/delete/${prodid}`);
+      console.log(response.data);
+      alert("Deleted");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   
 
@@ -217,7 +282,7 @@ function ProductDetailAdmin(props) {
               className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
               onClick={() => discountProduct(discount, product._id)}
               >
-                Apply
+                Apply Discount
              </button>
               </div>
               </form>
@@ -240,7 +305,53 @@ function ProductDetailAdmin(props) {
                 </div>
             )
             }
+              <form>
+                <div className="mt-5 space-y-1">
+              <input
+                type="number"
+                onChange={(event) => handlePrice(event)}
+                value={price}
+                className="block w-full px-4 py-2 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Discount Rate"
+              />
             
+             <button 
+              type = "submit"
+              className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+              onClick={() => changePrice(price, product._id)}
+              >
+                Change Price
+             </button>
+              </div>
+              </form>
+
+              <form>
+                <div className="mt-5 space-y-1">
+                <label>To increase, give positive value - to Decrease, give negative value</label>
+              <input
+                type="number"
+                onChange={(event) => handleStock(event)}
+                value={stock}
+                className="block w-full px-4 py-2 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Discount Rate"
+              />
+            
+             <button 
+              type = "submit"
+              className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+              onClick={() => changeStock(stock, product._id)}
+              >
+                Change Stock
+             </button>
+              </div>
+              </form>
+
+             
+             <button 
+                onClick = {() => deleteProd(product._id)}
+                className="mt-20 rounded-md bg-indigo-600 text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+                  DELETE
+             </button>
             
              </div>
              <div>
