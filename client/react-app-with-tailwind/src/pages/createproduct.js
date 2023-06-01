@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetUserID } from "../hooks/useGetuserID";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,27 @@ export const CreateProduct = () => {
 
 
 const Createp = () => {
+
+    const [categories, setCategories] = useState([]);
+
+    const fetchCategories = async () => {
+      try 
+      {
+           const response = await axios.get("http://localhost:3001/category/find");
+           setCategories(response.data);
+           
+      }
+      catch (err)
+      {
+        console.error(err);
+      }
+    };
+
+    useEffect(() => {
+      
+      fetchCategories();
+      
+    }, []);
 
     const userID = GetUserID();
 
@@ -205,9 +226,13 @@ const Createp = () => {
           <label for="category" class="block text-sm font-medium leading-7 text-gray-900">Category</label>
           <div class="mt-2">
             <select onChange={handleChange} id="category" name="category" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-7">
-              <option>T-Shirt</option>
-              <option>Sweatshirt</option>
-              <option>Pants</option>
+               {categories.map((option) => (
+                        <option key={option.category}>                          
+                            
+                              {option.category}
+                                                   
+                        </option>
+                      ))}
             </select>
            </div>
            <p className="mt-3 text-sm leading-6 text-gray-600">Choose one of the categories from above list.</p>

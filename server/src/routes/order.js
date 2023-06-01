@@ -331,4 +331,26 @@ router.put("/deliver/:order_id/:userid", async(req, res) => {
   }
 });
 
+
+router.get('/orders', (req, res) => {
+  const startDate = req.query.startDate;
+  const endDate = req.query.endDate;
+
+  const adjustedEndDate = new Date(endDate);
+  adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
+  // Perform the filtering logic using the startDate and endDate values
+  OrderModel.find({
+    date1: {
+      $gte: new Date(startDate),
+      $lt: adjustedEndDate,
+    },
+  })
+    .then((filteredOrders) => {
+      res.json(filteredOrders);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'An error occurred while filtering orders.' });
+    });
+});
+
 export {router as OrderRouter};

@@ -33,6 +33,7 @@ export const Products = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [category, setCategory] = useState(null);
   const [products, setProducts] = useState([]);
+
   const fetchProducts = async () => {
     try 
     {
@@ -45,6 +46,7 @@ export const Products = () => {
       console.error(err);
     }
   };
+  
   const fetchCategoryProduct = async (category) => {
     try {
       const response = await axios.get(`http://localhost:3001/product/${category}`);

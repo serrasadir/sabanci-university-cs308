@@ -6,7 +6,6 @@ import { GetUserID } from '../hooks/useGetuserID';
 import axios from 'axios';
 
 
-
 export const PaymentDone = () => {
     const [order, setOrder] = useState([])
 
@@ -137,4 +136,5 @@ export function downloadPDF(address, username, city, order2) {
   
   // Save the PDF
   doc.save('invoice.pdf');
+  
 }

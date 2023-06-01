@@ -21,7 +21,7 @@ export const Home = () => {
   const { state } = useContext(Cart);
 
   const {
-    productState: { sort, searchQuery, clear_filters, cate, sort_rating, clear},
+    productState: { sort, searchQuery, clear_filters, cate, sort_rating},
     productDispatch,
   } = useContext(Cart);
 
@@ -38,7 +38,7 @@ export const Home = () => {
   const transformProducts = () => {
     let sortedProducts = state.products;
 
-    if (sort && clear == false) {
+    if (sort) {
       sortedProducts = sortedProducts.sort((a, b) =>
         sort === "lowToHigh" ? a.price - b.price : b.price - a.price
       );
@@ -63,11 +63,6 @@ export const Home = () => {
       sortedProducts = sortedProducts.filter((product) =>
         product.category.toLowerCase().includes(cate.toLowerCase())
       );
-    }
-
-    if (clear == true)
-    {
-      sortedProducts = state.products;
     }
 
     return sortedProducts;
