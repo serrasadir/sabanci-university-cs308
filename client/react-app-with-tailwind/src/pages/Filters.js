@@ -29,12 +29,11 @@ export const Filters = () => {
     fetchCategory();
     
   }, []);
-
   return (
-    <div className="filters bg-gray-100 p-4 rounded shadow">
-      <h2 className="text-lg font-medium mb-4">Filters and Sort Options</h2>
+    <div className="filters bg-white p-4 text-left">
+      <h1 className="text-2xl font-bold mb-4">Filters and Sort Options</h1>
       <div className="mb-4">
-        <h3 className="text-gray-800 font-medium">Sort by:</h3>
+        <h3 className="text-gray-800 font-bold">Sort By Price:</h3>
         <div className="flex items-center mt-2">
           <input
             id="highToLow"
@@ -47,7 +46,7 @@ export const Filters = () => {
               })
             }
             checked={sort === "highToLow" ? true : false}
-            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            className="h-4 w-4 rounded text-font-bold border-gray-300 text-blue-900 focus:ring-blue-900"
           />
           <label
             htmlFor="highToLow"
@@ -68,7 +67,7 @@ export const Filters = () => {
               })
             }
             checked={sort === "lowToHigh" ? true : false}
-            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            className="h-4 w-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900"
           />
           <label
             htmlFor="lowToHigh"
@@ -79,7 +78,7 @@ export const Filters = () => {
         </div>
       </div>
       <div className="mb-4">
-        <h3 className="text-gray-800 font-medium">Sort by Rating:</h3>
+        <h3 className="text-gray-800 font-bold">Sort By Rating:</h3>
         <div className="flex items-center mt-2">
           <input
             id="ratingHighToLow"
@@ -92,7 +91,7 @@ export const Filters = () => {
               })
             }
             checked={sort_rating === "highToLow" ? true : false}
-            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            className="h-4 w-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900"
           />
           <label
             htmlFor="ratingHighToLow"
@@ -113,7 +112,7 @@ export const Filters = () => {
               })
             }
             checked={sort_rating === "lowToHigh" ? true : false}
-            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            className="h-4 w-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900"
           />
           <label
             htmlFor="ratingLowToHigh"
@@ -124,36 +123,33 @@ export const Filters = () => {
         </div>
       </div>
       <div>
-        <h3 className="text-gray-800 font-medium">Filter by category:</h3>
+        <h3 className="text-gray-800 font-bold">Filter By Category:</h3>
         {category.map((option) => (
-                  <div className="flex items-center mt-2">
-                  <input
-                    id={option.category}
-                    name={option.category}
-                    type="checkbox"
-                    onChange={() =>
-                      productDispatch({
-                        type: "category_choice",
-                        payload: option.category,
-                      })
-                    }
-                    checked={cate === option.category ? true : false}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="tshirt"
-                    className="text-gray-700 ml-2 cursor-pointer"
-                  >
-                    {option.category}
-                  </label>
-                </div>        
-          ))}
-
-        
-        
+          <div className="flex items-center mt-2">
+            <input
+              id={option.category}
+              name={option.category}
+              type="checkbox"
+              onChange={() =>
+                productDispatch({
+                  type: "category_choice",
+                  payload: option.category,
+                })
+              }
+              checked={cate === option.category ? true : false}
+              className="h-4 w-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900"
+            />
+            <label
+              htmlFor="tshirt"
+              className="text-gray-700 ml-2 cursor-pointer"
+            >
+              {option.category}
+            </label>
+          </div>
+        ))}
       </div>
       <button
-        className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+        className="mt-4 px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900"
         onClick={() =>
           productDispatch({
             type: "CLEAR_FILTERS",
@@ -164,6 +160,4 @@ export const Filters = () => {
       </button>
     </div>
   );
-};
-
-
+      };

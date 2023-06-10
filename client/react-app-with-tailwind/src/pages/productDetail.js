@@ -157,7 +157,9 @@ function ProductDetail(props) {
                 <h1 className="text-xl font-bold mr-4 line-through">
                   {product.old_price} TL
                 </h1>
-                
+                <div className="p-2 bg-red-800 items-center text-indigo-100 leading-none flex rounded-full">
+                  <span className="font-semibold">DISCOUNT!!!</span>
+                </div>
                 <h1 className="text-xl font-bold ml-4">{product.price} TL</h1>
               </div>
             ) : (
