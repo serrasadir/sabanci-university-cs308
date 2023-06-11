@@ -233,7 +233,7 @@ for (let i = 0; i < filteredOrders.length; i++) {
   return (
     <div className="container mx-auto">
   <div className="mt-10">
-    <a href="./admin_products" className="bg-dark-blue hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+    <a href="./admin_products" className="bg-dark-blue hover:bg-button-blue text-white font-bold py-2 px-4 rounded-full">
       PRODUCTS
     </a>
   </div>
@@ -259,7 +259,7 @@ for (let i = 0; i < filteredOrders.length; i++) {
 
     <button
       type="submit"
-      className="rounded-md bg-indigo-600 px-6 py-2 mt-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      className="rounded-md bg-dark-blue px-6 py-2 mt-4 text-sm font-semibold text-white shadow-sm hover:bg-button-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Add Category
     </button>
@@ -300,7 +300,7 @@ for (let i = 0; i < filteredOrders.length; i++) {
         End Date:
         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
       </label>
-      <button onClick={() => {handleFilter()}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mr-2">
+      <button onClick={() => {handleFilter()}} className="bg-dark-blue hover:bg-button-blue text-white font-bold py-2 px-4 rounded-md mr-2">
   Filter Orders
 </button>
 
@@ -311,7 +311,7 @@ for (let i = 0; i < filteredOrders.length; i++) {
 
       <h2 className="mt-8 text-xl font-semibold mb-4">ORDERS</h2>
       <ul className="divide-y divide-gray-200">
-      <p className="mt-8 bg-red-200 text-white font-bold py-2 px-4 rounded-md mr-2">Total Revenue: {totalPrice} TL</p>
+      <p className="mt-8 bg-dark-blue text-white font-bold py-2 px-4 rounded-md mr-2">Total Revenue: {totalPrice} TL</p>
       
         {filteredOrders.map((order2) => (
           <li key={order2._id} className="py-4">
@@ -333,7 +333,7 @@ for (let i = 0; i < filteredOrders.length; i++) {
               {order2.status === "Processing" && (
                 <button
                   onClick={() => statusChange(order2._id, order2.userID)}
-                  className="bg-indigo-600 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                  className="bg-dark-blue rounded-md text-white font-semibold px-4 py-2 hover:bg-button-blue focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                 >
                   IN-TRANSIT
                 </button>
@@ -506,7 +506,7 @@ const OrderGraph = ({ filteredOrders }) => {
               label: 'Total Revenue',
               data: cumulativeSum,
               fill: false,
-              borderColor: 'rgb(75, 192, 192)',
+              borderColor:'rgb(112, 128, 144)',
               tension: 0.1,
             },
           ],
@@ -555,4 +555,3 @@ const OrderGraph = ({ filteredOrders }) => {
 };
 
 export default OrderGraph;
-
