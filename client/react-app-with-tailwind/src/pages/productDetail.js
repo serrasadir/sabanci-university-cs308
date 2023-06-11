@@ -21,11 +21,14 @@ function ProductDetail(props) {
   const [savedProducts, setSavedProducts] = useState([]);
   const [ratedProducts, setRatedProducts] = useState([]);
   const [rating, setRating2] = useState(0);
+
   const handleRatingChange = (event) => {
     const value = parseInt(event.target.value);
     setRating2(value);
   };
+
   const { productId } = useParams();
+
   const fetchProduct = async (productId) => {
     try {
       const response = await axios.get(`http://localhost:3001/product/${productId}`);
@@ -38,6 +41,8 @@ function ProductDetail(props) {
       throw error;
     }
   };
+
+
   useEffect(() => {
       const fetchProductData = async () => {
      
@@ -45,6 +50,8 @@ function ProductDetail(props) {
 
       setProduct(productData);
     };
+
+
     const fetchSavedProduct = async () => {
      try
      {
@@ -56,6 +63,8 @@ function ProductDetail(props) {
       console.error(err);
      }
     };
+
+
     const fetchRatedProduct = async () => {
       try
       {
@@ -88,6 +97,8 @@ function ProductDetail(props) {
       console.error(err);
     }
   };
+
+
   const pushUser = async (prodid) => {
     try 
     {
@@ -103,6 +114,8 @@ function ProductDetail(props) {
       console.error(err);
     }
   };
+
+
   const rateProduct = async (rating2, prodid) => {
     try 
     {
@@ -183,11 +196,11 @@ function ProductDetail(props) {
                 Can't save without login
               </button>
             ) : (
-              <button className="bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded cursor-not-allowed mr-4 mt-4" disabled>
+              <button className="bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded-full cursor-not-allowed mr-4 mt-4" disabled>
                 Already saved
               </button>
             )}
-  
+
             {cart.some((p) => p.product_id === product.product_id) ? (
               <button
                 onClick={() => {
@@ -201,7 +214,7 @@ function ProductDetail(props) {
                 Remove From Cart
               </button>
             ) : product.stock <= 0 ? (
-              <button className="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full cursor-not-allowed opacity-50 mb-4">
+              <button className="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full cursor-not-allowed opacity-50 mb-4 mt-2">
                 No Stock
               </button>
             ) : product.stock === 1 ? (
@@ -245,8 +258,28 @@ function ProductDetail(props) {
                 Add to Cart
               </button>
             )}
+
           </div>
+
+          <div className="container mx-auto flex py-6 flex-wrap justify-center">
+            <div className="w-3/4 px-20 bg-white p-6 rounded-lg shadow-md mt-6 justify-center">
+              <h1 className="text-lg font-bold mb-4">Comments</h1>
+              <div className="overflow-y-auto max-h-60">
+                {product.comments.map((com, index) => (
+                  <div key={index} className="flex items-start mb-4">
+                    <p className="font-bold text-gray-900">{com.user_name}</p>
+                    <div>
+                      <h3 className="text-lg font-semibold">{com.userName}</h3>
+                      <p className="text-gray-700">: {com.comment}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
+        
       ) : (
         <p>Wave is coming!</p>
       )}
@@ -274,16 +307,6 @@ function ProductDetail(props) {
     setComment({ ...comment2, [name]: value});
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try 
-    {
-         await axios.post("http://localhost:3001/comment/save_comment", comment2);
-         alert("Your comment sent to admin.");
-    }
-    catch (error)
-    {
-        console.error(error);
-    }
-};}
+  }
+
 export default ProductDetail
