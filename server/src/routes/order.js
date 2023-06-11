@@ -78,6 +78,7 @@ router.put("/waitingrefund/:order_id/:userid", async(req, res) => {
       console.log(elapsedTime)
       if (elapsedTime > refundablePeriod) {
 
+
           return res.status(400).json({ error: "Refund period has expired" });
       }
 
@@ -210,6 +211,20 @@ router.put("/refund/:order_id/:userid", async(req, res) => {
       const orderCreationTime = response.date1;
       const elapsedTime = currentTime - orderCreationTime;
       if (elapsedTime > refundablePeriod) {
+        for (let i = 0; i < user.ordered.length; i++) {
+          console.log(user.ordered[i]._id)
+          console.log(response._id)
+           if ((user.ordered[i]._id).equals(response._id)) {
+             console.log("Old status:", user.ordered[i].status);
+             console.log("Order ID:", user.ordered[i]._id);
+             console.log("Total value:", user.ordered[i].total);
+             console.log("Order ID from params:", order_id);
+             user.ordered[i].status = "Delivered 30+ days ago";
+             user.save();
+             console.log("New status:", user.ordered[i].status);
+             console.log("Status changed");
+           }
+       }
           return res.status(400).json({ error: "Refund period has expired" });
       }
 

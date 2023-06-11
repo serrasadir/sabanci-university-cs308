@@ -84,7 +84,7 @@ const Back_To =  () => {
                   <h2 className="text-sm font-medium text-gray-900">
                     {product.product_name}
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 text-left">
                     {product.color} | {product.size}
                   </p>
                   <div className="mt-1 flex items-center gap-x-1.5">

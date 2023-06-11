@@ -78,63 +78,89 @@ export const PaymentDone = () => {
 export function downloadPDF(address, username, city, order2) {
   // Create a new jsPDF instance
   const doc = new jsPDF();
-  
+
   // Set the font and styles
-  doc.setFont('New York Times Roman', 'bold');
-  doc.setFontSize(20);
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(24);
   doc.setTextColor(51, 102, 204);
-  
-  // Add the invoice title
-  doc.text(`Invoice`, 10, 20);
-  
+
+  // Add the order title
+  doc.text(`ORDER INVOICE`, 10, 20);
+
   // Set the font for the user details
-  doc.setFont('New York Times Roman', 'normal');
-  doc.setFontSize(14);
-  
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(12);
+
   // Add the user details
   doc.setTextColor(0, 0, 0);
-  
-  doc.text(`Customer Name: ${username}`, 10, 35);
-  doc.text(`City: ${city}`, 10, 45);
-  doc.text(`Address: ${address}`, 10, 55);
-  
-  // Set the font and styles for the order details
-  doc.setFont('New York Times Roman', 'bold');
+  doc.setFont('Helvetica', 'bold');
+  doc.text(`Customer Name:`, 10, 35);
+  doc.setFont('Helvetica', 'normal');
+  doc.text(`${username}`, 45, 35);
+
+  doc.setFont('Helvetica', 'bold');
+  doc.text(`City:`, 10, 45);
+  doc.setFont('Helvetica', 'normal');
+  doc.text(`${city}`, 20, 45);
+
+  doc.setFont('Helvetica', 'bold');
+  doc.text(`Address:`, 10, 55);
+  doc.setFont('Helvetica', 'normal');
+  doc.text(`${address}`, 30, 55);
+  // Set the font and styles for the table header
+  doc.setFont('Helvetica', 'bold');
   doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+
+  // Define the table header column positions
+  const headerNameX = 10;
+  const headerPriceX = 150;
+  const headerY = 70;
+
+  // Add the table header
+  doc.setFillColor(255, 255, 255);
+  doc.rect(headerNameX, headerY, headerPriceX - headerNameX, 10, 'F');
+  doc.text('Product Name', headerNameX , headerY + 8);
+  doc.text('Product Price', headerPriceX , headerY + 8);
+
+  // Set the font and styles for the table content
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(12);
   doc.setTextColor(51, 51, 51);
-  
-  // Calculate the initial y-position for the order items
-  let yPos = 80;
 
-  console.log(order2.total)
-  
-  // Iterate over the order items and add them to the PDF
+  // Calculate the initial y-position for the table content
+  let yPos = headerY + 15;
+
+  // Iterate over the order items and add them to the table
   order2[order2.length - 1].order.forEach((o, index) => {
-    console.log(o.total)
-
     const productName = o.product_name;
     const price = o.price;
-    doc.setFont('New York Times Roman', 'bold');
-    doc.text(`Product ${index + 1}:`, 10, yPos);
-    doc.setFont('New York Times Roman', 'normal');
-    doc.text(productName, 40, yPos);
-    doc.text(`${price}$`, 150, yPos);
-    
-    yPos += 15;
+
+    // Add the product details to the table
+    doc.text(productName, headerNameX, yPos);
+    doc.text(`${price}$`, headerPriceX, yPos);
+
+    yPos += 10;
   });
-  
+
   // Set the font and styles for the total amount
-  doc.setFont('New York Times Roman', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(51, 102, 204);
-  
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(12);
+  doc.setTextColor(51, 51, 51);
+
   // Calculate the total amount
-  
-  // Add the total amount
-  doc.text(`Total Amount: ${order2[order2.length-1].total}$`, 10, yPos + 20);
-  doc.text("Wave Shopping hope to see you again!", 60, yPos + 30)
-  
+  const totalAmount = order2[order2.length - 1].total;
+
+  // Add the total amount below the table
+  doc.text(`Total Amount: ${totalAmount}$`, 123, yPos);
+
+  doc.setFont('Helvetica', 'bolditalic');
+  doc.setFontSize(12);
+  doc.setTextColor(51, 51, 51);
+
+  doc.text("Wave Shopping hopes to see you again!", 60, yPos + 20);
+
   // Save the PDF
+
   doc.save('invoice.pdf');
-  
 }

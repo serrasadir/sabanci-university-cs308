@@ -143,23 +143,15 @@ function classNames(...classes) {
       <div>
         {/* Mobile filter dialog */}
         
-       
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Welcome to Wave!</h1>
+
+        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-1">
+          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-20">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Welcome to Wave</h1>
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Sort
-                    <ChevronDownIcon
-                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+                
 
                 <Transition
                   as={Fragment}
@@ -193,18 +185,19 @@ function classNames(...classes) {
                 </Transition>
               </Menu>
 
-              <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-                <span className="sr-only">View grid</span>
-                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                onClick={() => setMobileFiltersOpen(true)}
-              >
-                <span className="sr-only">Filters</span>
-                <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
+              <div className="mt-2 border-b border-gray-100">
+              <input
+                type="text"
+                placeholder="Search"
+                className="border-b border-gray-300 rounded shadow"
+                onChange={(e) => {
+                  productDispatch({
+                    type: "FILTER_BY_SEARCH",
+                    payload: e.target.value,
+                  });
+                }}
+              />
+            </div>
             </div>
           </div>
 
@@ -235,8 +228,5 @@ function classNames(...classes) {
         </main>
       </div>
     </div>
-
-
-
   );
 };

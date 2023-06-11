@@ -26,14 +26,16 @@ export const SingleProduct = ({prod}) => {
   const { state: { cart }, dispatch, } = useContext(Cart);
   return (
     <div>
-      <p className="text-left italic text-sm text-gray-500">{prod.stock} left!</p>
+      {prod.stock === 0 ? (
+      <p className="text-left italic text-sm text-red-500">{prod.stock} left!</p>):
+      (<p className="text-left italic text-sm text-gray-500">{prod.stock} left!</p>)}
       <div className="w-full bg-gray-200 rounded-md overflow-hidden aspect-w-1 aspect-h-1 min-h-80 lg:aspect-none group-hover:opacity-75 lg:h-85">
         
         <Link to={`/products/${prod.product_id}`}>
           {prod.discount ? (
-            <span className="flex px-2 py-1 text-xs text-red-600 font-bold mr-3">
-              %{prod.discount_rate} Discount, Shop now!
-            </span>
+           <span className="flex px-2 py-1 text-xs text-red-600 font-bold mr-3">
+           %{prod.discount_rate} Discount, Shop now!
+         </span>
           ) : null}
           
           <img src={prod.imageUrl} alt={prod.imageAlt} class="w-full h-full object-center object-cover lg:h-full lg:w-full" />
@@ -50,11 +52,11 @@ export const SingleProduct = ({prod}) => {
   
         {prod.discount ? (
           <div>
-            <p style={{ textDecoration: 'line-through' }} className="text-right font-medium text-gray-900">
+            <p style={{ textDecoration: 'line-through' }} className="text-right font-medium text-red-500 text-sm">
               {prod.old_price} TL
             </p>
             <div className="flex justify-between">
-              <p className="text-right font-medium text-gray-900">{prod.price} TL</p>
+              <p className="text-right font-medium text-red-500 text-sm">{prod.price} TL</p>
             </div>
           </div>
         ) : (
@@ -81,7 +83,7 @@ export const SingleProduct = ({prod}) => {
           </div>
         ) : (
           prod.stock <= 0 ? (
-            <button className="px-4 py-2 font-semibold text-gray-800 border border-gray-400 rounded cursor-not-allowed opacity-50 bg-white hover:bg-gray-100">
+            <button className="px-4 py-2 font-semibold text-gray-800 rounded cursor-not-allowed opacity-50 bg-white hover:bg-gray-100">
               No Stock
             </button>
           ) : prod.stock === 1 ? (
