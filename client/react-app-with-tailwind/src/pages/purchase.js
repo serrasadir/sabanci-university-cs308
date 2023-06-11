@@ -60,7 +60,7 @@ const Back_To =  () => {
 
 
   return (
-    <div className="bg-gradient-to-r from-indigo-500 to-purple-100">
+    <div className="bg-gradient-to-r from-gray-100">
     <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 to-purple-100">
     <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
       Your Cart
@@ -72,7 +72,7 @@ const Back_To =  () => {
         </p>
       ) : (
        <div>
-          <ul className="divide-y divide-gray-200">
+          <ul className="divide-y divide-gray-900">
             {cart.map((product) => (
               <li key={product.product_id} className="py-4 flex">
                 <img
@@ -94,7 +94,7 @@ const Back_To =  () => {
                         payload:product,
                       });
                        }}
-                      className="inline-flex items-center justify-center text-gray-400 hover:text-gray-500"
+                      className="inline-flex justify-between text-red-800 hover:text-gray-500"
                     >
                       <svg
                         className="h-5 w-5"
@@ -122,7 +122,7 @@ const Back_To =  () => {
               <p>Subtotal ({cart.length} items)</p>
               <p>{total} TL</p>
             </div>
-            <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+            <p className="text-base font-medium text-gray-900 flex justify-between">Shipping and taxes calculated at checkout.</p>
             <div className="mt-6">
               {userID == null ? 
                           (
@@ -142,7 +142,7 @@ const Back_To =  () => {
                             href="/payment_success"
                             disabled={cart.length === 0}
                             onClick={handleSubmit}
-                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                            className="flex items-center justify-center rounded-md border border-transparent bg-dark-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-button-blue"
                           >
                             Checkout
                           </button>

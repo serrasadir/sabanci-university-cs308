@@ -102,7 +102,7 @@ export function CartShop() {
                                                payload: prod,
                                           })
                                         }
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                                        className="font-medium text-red-700 hover:text-red-700"
                                       >
                                         Remove
                                       </button>
@@ -114,7 +114,7 @@ export function CartShop() {
                   )
                   )}
                   <Link to="/purchase">
-                  <button class="bg-dark-blue hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                  <button class="bg-dark-blue hover:bg-button-blue text-white font-bold py-2 px-4 rounded">
                       Purchase
                   </button>
                   </Link>                 
