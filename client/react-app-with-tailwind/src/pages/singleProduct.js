@@ -101,7 +101,7 @@ export const SingleProduct = ({prod}) => {
                       payload: prod,
                     });
                   }}
-                  className="text-right px-4 py-2 font-bold text-blue-700 bg-white rounded hover:bg-white"
+                  className="text-right px-4 py-2 font-bold text-dark-blue bg-white rounded hover:bg-white"
                 >
                   Add to Cart
                 </button>
@@ -117,7 +117,7 @@ export const SingleProduct = ({prod}) => {
                       payload: prod,
                     });
                   }}
-                  className="text-right px-4 py-2 font-bold text-blue-700 bg-white rounded hover:bg-white"
+                  className="text-right px-4 py-2 font-bold text-button-blue bg-white rounded hover:bg-white"
                 >
                   Add to Cart
                 </button>
