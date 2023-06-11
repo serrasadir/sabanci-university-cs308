@@ -71,7 +71,7 @@ const Login = () => {
 
 const Formlogin = ({username, setUsername, password, setPassword, onSubmit}) => {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 to-purple-500">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r bg-light-blue">
         <div className="w-full max-w-md space-y-8 p-6 bg-white rounded-lg shadow-md">
           <div className="text-center">
             <img className="mx-auto h-12 w-auto" src="https://cdn-icons-png.flaticon.com/512/5509/5509636.png" alt="Your Company" />
@@ -111,7 +111,7 @@ const Formlogin = ({username, setUsername, password, setPassword, onSubmit}) => 
             <div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 bg-indigo-500 text-white font-bold rounded-md focus:outline-none focus:shadow-outline hover:bg-indigo-400"
+                className="w-full py-2 px-4 bg-dark-blue text-white font-bold rounded-md focus:outline-none focus:shadow-outline hover:bg-button-blue"
               >
                 Log In
               </button>

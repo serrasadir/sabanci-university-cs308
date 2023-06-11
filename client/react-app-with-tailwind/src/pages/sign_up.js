@@ -67,7 +67,7 @@ const Register = () => {
 
 const Formregister = ({email, setEmail, username, setUsername, password, setPassword, onSubmit}) => {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-purple-500 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-light-blue flex items-center justify-center py-12 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
@@ -88,7 +88,7 @@ const Formregister = ({email, setEmail, username, setUsername, password, setPass
               value={username}
               onChange={(event) => setUsername(event.target.value)}
               required
-              className="appearance-none rounded-md bg-gray-100 py-2 px-3 leading-tight focus:outline-none focus:bg-gray-200 focus:border-gray-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
+              className="appearance-none rounded-md bg-gray-100 py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full border-0"
               placeholder="Username"
             />
           </div>
@@ -104,7 +104,7 @@ const Formregister = ({email, setEmail, username, setUsername, password, setPass
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
-              className="appearance-none rounded-md bg-gray-100 py-2 px-3 leading-tight focus:outline-none focus:bg-gray-200 focus:border-gray-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
+              className="appearance-none rounded-md bg-gray-100 py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full border-0"
               placeholder="Email address"
             />
           </div>
@@ -120,14 +120,14 @@ const Formregister = ({email, setEmail, username, setUsername, password, setPass
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
-              className="appearance-none rounded-md bg-gray-100 py-2 px-3 leading-tight focus:outline-none focus:bg-gray-200 focus:border-gray-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full"
+              className="appearance-none rounded-md bg-gray-100 py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full border-0"
               placeholder="Password"
             />
           </div>
           <div>
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-md focus:outline-none focus:shadow-outline hover:from-indigo-400 hover:to-purple-400"
+              className="w-full py-2 px-4 bg-gradient-to-r bg-dark-blue text-white font-bold rounded-md focus:outline-none focus:shadow-outline hover:bg-button-blue"
             >
               <span className="flex items-center justify-center">
                 <LockClosedIcon className="w-5 h-5 mr-2" />

@@ -174,12 +174,11 @@ const handleSubmit = async (event) => {
 const FormPayment = ({ email, setEmail, address, setAddress, city, setCity, cardNumber, setCardNumber, handleSubmit, control}) => {
     
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 to-purple-500">
+      <div className="flex items-center justify-center min-h-screen bg-light-blue">
         <div className="w-full max-w-md space-y-8 p-6 bg-white rounded-lg shadow-md">
           <div className="text-center">
-            <img className="mx-auto h-12 w-auto" src="https://cdn-icons-png.flaticon.com/512/5509/5509636.png" alt="Your Company" />
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-gray-900">
-              Payment Process
+              Payment
             </h2>
             
             
@@ -253,7 +252,7 @@ const FormPayment = ({ email, setEmail, address, setAddress, city, setCity, card
               <label htmlFor="password" className="sr-only">
                 Card expiration date
               </label>
-              <h2>Card expiration date</h2>
+              <h2>Card Expiration Date</h2>
               <input
                 type="text"
                 id="password"
@@ -279,11 +278,10 @@ const FormPayment = ({ email, setEmail, address, setAddress, city, setCity, card
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="w-full py-2 px-4 bg-indigo-500 text-white font-bold rounded-md focus:outline-none focus:shadow-outline hover:bg-indigo-400"
+                className="w-full py-2 px-4 bg-dark-blue text-white font-bold rounded-md focus:outline-none focus:shadow-outline hover:bg-blue-button"
               >
                 Buy the products
               </button>
-              <div> MyComponent </div>
             </div>
           </form>
         </div>

@@ -233,7 +233,7 @@ for (let i = 0; i < filteredOrders.length; i++) {
   return (
     <div className="container mx-auto">
   <div className="mt-10">
-    <a href="./admin_products" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+    <a href="./admin_products" className="bg-dark-blue hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
       PRODUCTS
     </a>
   </div>

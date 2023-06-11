@@ -114,7 +114,7 @@ export function CartShop() {
                   )
                   )}
                   <Link to="/purchase">
-                  <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                  <button class="bg-dark-blue hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                       Purchase
                   </button>
                   </Link>                 

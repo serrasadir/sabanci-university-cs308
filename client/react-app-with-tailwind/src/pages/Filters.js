@@ -30,11 +30,11 @@ export const Filters = () => {
     
   }, []);
   return (
-    <div className="filters bg-white p-4 text-left">
-      <h1 className="text-2xl font-bold mb-4">Filters and Sort Options</h1>
-      <div className="mb-4">
-        <h3 className="text-gray-800 font-bold">Sort By Price:</h3>
-        <div className="flex items-center mt-2">
+    <div className="filters bg-gray-100 p-4 text-left flex flex-col justify-start items-start">
+    <h1 className="text-xl font-bold mb-4">Filters and Sort Options</h1>
+    <div className="mb-4">
+      <h3 className="text-gray-800 font-bold">Sort By Price:</h3>
+      <div className="flex items-center mt-2">
           <input
             id="highToLow"
             name="highToLow"
@@ -100,7 +100,7 @@ export const Filters = () => {
             Rating: High to Low
           </label>
         </div>
-        <div className="flex items-center mt-2">
+        <div className="flex items-center mt-4">
           <input
             id="ratingLowToHigh"
             name="ratingLowToHigh"
@@ -148,16 +148,16 @@ export const Filters = () => {
           </div>
         ))}
       </div>
-      <button
-        className="mt-4 px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900"
-        onClick={() =>
-          productDispatch({
-            type: "CLEAR_FILTERS",
-          })
-        }
-      >
-        Clear Filters
-      </button>
-    </div>
+  <button
+    className="mt-8 px-4 py-2 bg-dark-blue text-white rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900"
+    onClick={() =>
+      productDispatch({
+        type: "CLEAR_FILTERS",
+      })
+    }
+  >
+    Clear Filters
+  </button>
+</div>
   );
       };
