@@ -78,6 +78,7 @@ export const OrderHistory = () => {
     {
          await axios.post("http://localhost:3001/comment/save_comment", comment2);
          alert("Your comment sent to admin.");
+         refreshPage();
     }
     catch (error)
     {
@@ -138,6 +139,7 @@ export const OrderHistory = () => {
     });
         setRatedProducts(response.data.ratedProducts);
         alert("Product Rated")
+        refreshPage();
     }
     catch (err)
     {
@@ -189,7 +191,7 @@ export const OrderHistory = () => {
         {order.map((o) => (
           <li key={o._id} className="py-4">
             <div className="flex items-center justify-between">
-              <p className="text-lg leading-6 text-gray-900">Order ID: {o._id}</p>
+              <p className="text-lg leading-6 text-gray-600">Order ID: {o._id}</p>
               <button onClick={() => downloadPDF(o.delivery_address, o.userID, o)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +213,7 @@ export const OrderHistory = () => {
                 {o.status === "Delivered" ? (
                   <button
                     onClick={() => refund(o._id, o.userID)}
-                    className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                    className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-button-blue focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                   >
                     Refund
                   </button>
@@ -236,7 +238,7 @@ export const OrderHistory = () => {
                 ): (
                   <button
                     onClick={() => Cancel(o._id, o.userID)}
-                    className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                    className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-button-blue focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                   >
                     Cancel the order
                   </button>
@@ -315,7 +317,7 @@ export const OrderHistory = () => {
         <option value={5}>5 stars</option>
       </select>
       <button
-        className="bg-blue-button hover:bg-purple-600 text-white text-sm font-semibold py-2 px-4 rounded mt-2"
+        className="bg-dark-blue hover:bg-button-blue text-white text-sm font-semibold py-2 px-4 rounded mt-2"
         onClick={() => rateProduct(selectedRating, o_list._id)}
       >
         Rate

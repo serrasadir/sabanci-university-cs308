@@ -5,13 +5,13 @@ import {  useState, useEffect } from "react";
 import { GetUserID } from '../hooks/useGetuserID';
 import axios from 'axios';
 
-
 export const PaymentDone = () => {
     const [order, setOrder] = useState([])
 
     const [address, setAddress] = useState("")
     const [city, setCity] = useState("")
     const [username, setUsername] = useState("")
+    const [useremail, setUseremail] = useState("")
   
     const userID = GetUserID();
 
@@ -30,6 +30,7 @@ export const PaymentDone = () => {
           setUsername(response.data.username);
           setAddress(response.data.address);
           setCity(response.data.city);
+          setUseremail(response.data.useremail);
           
         } 
         catch (err)
@@ -47,7 +48,7 @@ export const PaymentDone = () => {
   return (
     <div class="bg-gray-100 h-screen">
       <div class="bg-white p-6  md:mx-auto">
-        <button onClick={() => downloadPDF(address, username, city, order)}> 
+        <button onClick={() => downloadPDF(address, username, city, order, useremail)}> 
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
 </svg>
@@ -75,11 +76,12 @@ export const PaymentDone = () => {
 }
 
 
-export function downloadPDF(address, username, city, order2) {
+export function downloadPDF(address, username, city, order2, useremail) {
   // Create a new jsPDF instance
   const doc = new jsPDF();
 
   // Set the font and styles
+
   doc.setFont('Helvetica', 'bold');
   doc.setFontSize(24);
   doc.setTextColor(51, 102, 204);
@@ -162,5 +164,8 @@ export function downloadPDF(address, username, city, order2) {
 
   // Save the PDF
 
-  doc.save('invoice.pdf');
+  doc.save('invoice.pdf')
+ 
+  
+  
 }

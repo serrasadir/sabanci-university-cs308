@@ -90,7 +90,7 @@ function ProductDetail(props) {
           userID
         });
         setSavedProducts(response.data.savedProducts);
-        alert("Product Saved")
+        
     }
     catch (err)
     {
@@ -108,6 +108,7 @@ function ProductDetail(props) {
           userID
         });
         alert("Product Saved")
+        refreshPage();
     }
     catch (err)
     {
@@ -115,6 +116,9 @@ function ProductDetail(props) {
     }
   };
 
+  const refreshPage = () => {
+    window.location.reload(true);
+  }
 
   const rateProduct = async (rating2, prodid) => {
     try 

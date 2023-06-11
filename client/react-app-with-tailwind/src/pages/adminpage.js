@@ -9,7 +9,7 @@ import Chart from 'chart.js/auto';
 export const Adminpage = () => {
 
   const userID = GetUserID();
-
+  
   const [comments, setComments] = useState([]);
   const [username, setUsername] = useState("");
   const [product, setProduct] = useState("");
@@ -111,7 +111,7 @@ const sendEmail = async (userID) => {
          return await axios.delete(`http://localhost:3001/comment/${comment._id}`)
       .then((response) => {
         console.log(response.data);
-        alert("Deleted")
+        refreshPage();
       })
       .catch((error) => {
         console.error(error);
@@ -129,6 +129,7 @@ const deleteUser = async (userId) => {
     .then((response) => {
       //console.log(response.data);
       alert("Deleted")
+      refreshPage();
     })
     .catch((error) => {
       console.error(error);
@@ -141,6 +142,7 @@ const deleteCategory = async (category) => {
     .then((response) => {
       //console.log(response.data);
       alert("Deleted")
+      refreshPage();
     })
     .catch((error) => {
       console.error(error);
@@ -156,6 +158,7 @@ const statusChange =  async (prodid, userid) => {
   .then((response) => {
     //console.log(response.data);
     alert("Changed status")
+    refreshPage();
   })
   .catch((error) => {
     console.error(error);
@@ -200,6 +203,7 @@ const Cancel =  async (prodid, userid) => {
 const handleCategory = (event) => {
   const {name, value} = event.target;
   setCategory({ ...cate, [name]: value});
+  refreshPage();
 };
 
 const handleChange = (event) => {
@@ -313,8 +317,10 @@ for (let i = 0; i < filteredOrders.length; i++) {
         {filteredOrders.map((order2) => (
           <li key={order2._id} className="py-4">
             <div className="flex justify-between items-center">
+              
               <div>
                 <p className="text-sm font-semibold text-gray-700">{order2.userID}</p>
+               
                 <button onClick={() => downloadPDF(order2)}> 
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -324,9 +330,12 @@ for (let i = 0; i < filteredOrders.length; i++) {
                   <div key={product._id} className="mt-1">
                     <p className="text-sm font-semibold text-gray-700">{product.product_name}</p>
                     <p className="text-xs text-gray-500">{product.category}</p>
+                   
                   </div>
                 ))}
+              
               </div>
+              <p className="text-xs text-gray-500">{order2.delivery_address}</p>
               {order2.status === "Processing" && (
                 <button
                   onClick={() => statusChange(order2._id, order2.userID)}
