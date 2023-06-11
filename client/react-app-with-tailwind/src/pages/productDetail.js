@@ -146,9 +146,10 @@ function ProductDetail(props) {
   return (
     <div className="bg-gray-100">
       {product ? (
-        <div className="container mx-auto flex flex-wrap">
+        <div className="container mx-auto flex flex-wrap py-6">
           {/* Product image */}
-          <div className="md:w-1/2 md:p-5">
+
+          <div className="md:w-1/2 md:p-5 py-5">
             <div className="flex items-center justify-center">
               <img
                 src={product.imageUrl}
@@ -171,13 +172,12 @@ function ProductDetail(props) {
   
             {product.discount ? (
               <div className="flex items-center mb-6">
-                <h1 className="text-xl font-bold mr-4 line-through">
+                <h1 className="text-xl font-bold mr-1 line-through">
                   {product.old_price} TL
                 </h1>
-                <div className="p-2 bg-red-800 items-center text-indigo-100 leading-none flex rounded-full">
-                  <span className="font-semibold">DISCOUNT!!!</span>
-                </div>
-                <h1 className="text-xl font-bold ml-4">{product.price} TL</h1>
+                
+                <h1 className="text-xl font-bold ml-2">{product.price} TL </h1>
+                <h1 className="text-xl font-italic text-red-500 ml-4">-%{product.discount_rate}  </h1>
               </div>
             ) : (
               <div className="mb-6">

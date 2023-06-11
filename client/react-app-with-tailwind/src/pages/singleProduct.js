@@ -26,16 +26,17 @@ export const SingleProduct = ({prod}) => {
   const { state: { cart }, dispatch, } = useContext(Cart);
   return (
     <div>
-      {prod.stock === 0 ? (
+      {prod.discount ? (
+         <p className="text-left font-bold text-sm text-red-500">{prod.stock} left, %{prod.discount_rate} Discount! </p>
+      ):
+      prod.stock === 0 ? (
       <p className="text-left italic text-sm text-red-500">{prod.stock} left!</p>):
       (<p className="text-left italic text-sm text-gray-500">{prod.stock} left!</p>)}
       <div className="w-full bg-gray-200 rounded-md overflow-hidden aspect-w-1 aspect-h-1 min-h-80 lg:aspect-none group-hover:opacity-75 lg:h-85">
         
         <Link to={`/products/${prod.product_id}`}>
           {prod.discount ? (
-           <span className="flex px-2 py-1 text-xs text-red-600 font-bold mr-3">
-           %{prod.discount_rate} Discount, Shop now!
-         </span>
+           null
           ) : null}
           
           <img src={prod.imageUrl} alt={prod.imageAlt} class="w-full h-full object-center object-cover lg:h-full lg:w-full" />
