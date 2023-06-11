@@ -18,8 +18,6 @@ export const Adminpage = () => {
     category: "",
   });
 
-  
-  
   const [categories, setCategories] = useState([]);
 
     const fetchCategories = async () => {
@@ -71,8 +69,7 @@ export const Adminpage = () => {
         }
       };
 
-    
-
+  
   useEffect(() => {
     const fetchComments = async () => {
       try 
@@ -364,11 +361,6 @@ for (let i = 0; i < filteredOrders.length; i++) {
         ))}
       </ul>
     </div>
-
-    
-
-
-
     <div className="bg-white shadow rounded-lg p-6 mt-6">
       <h2 className="text-xl font-semibold mb-4">COMMENTS</h2>
       <ul className="divide-y divide-gray-200">
@@ -401,14 +393,8 @@ for (let i = 0; i < filteredOrders.length; i++) {
     </div>
   </div>
 </div>
-
-
-
   )
 }
-
-
-
 
 export function downloadPDF(order2) {
   // Create a new jsPDF instance
