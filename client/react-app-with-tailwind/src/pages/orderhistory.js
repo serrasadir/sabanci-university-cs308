@@ -8,6 +8,8 @@ import { GetUserName } from "../hooks/getusername";
 import jsPDF from "jspdf";
 
 
+const { DateTime} = require('luxon');
+
 const deleteUser = async (userId) => {
   return await axios.delete(`http://localhost:3001/comment/${userId}`)
     .then((response) => {
@@ -32,16 +34,20 @@ const sendEmail = async (userID) => {
 
 
 export const OrderHistory = () => {
-
+  
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);
   const [selectedComment, setSelectedComment] = useState('');
   const [prodReal, setprodReal] = useState(null);
   const [ratedProducts, setRatedProducts] = useState([]);
+  const [order, setOrder] = useState([])
+  const userID = GetUserID();
 
-   const userID = GetUserID();
 
+  
+  const refundablePeriod = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+  const currentTime = new Date().toJSON();
 
 
   const handleOpenDropdown = (orderId, productId) => {
@@ -62,6 +68,8 @@ export const OrderHistory = () => {
     prod_id: prod_id,
     user_name: username,
   });
+
+
 
   const handleRatingChange = (e) => {
     setSelectedRating(parseInt(e.target.value));
@@ -88,7 +96,7 @@ export const OrderHistory = () => {
 
    /* asdsasa */
 
-    const [order, setOrder] = useState([])
+    
 
   /*const handleRatingChange = (event) => {
     const value = parseInt(event.target.value);
@@ -209,9 +217,19 @@ export const OrderHistory = () => {
                 </svg>
               </button>
               <p className="text-sm text-gray-500">{o.status}</p>
+              <p className="text-sm text-gray-500">{o.date1}</p>
+              <p className="text-sm text-gray-500">{DateTime.fromISO(o.date1)}</p>
+              <p className="text-sm text-gray-500">{}</p>
+              
               <div>
-                {o.status === "Delivered" ? (
+                {o.status === "Delivered" && (currentTime - (o.date1.getTime()) > refundablePeriod) ? (     
                   <button
+                  className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-button-blue focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                >
+                  Can Not Refund
+                </button> )
+                : o.status === "Delivered" ? 
+                 ( <button
                     onClick={() => refund(o._id, o.userID)}
                     className="bg-gray-800 rounded-md text-white font-semibold px-4 py-2 hover:bg-button-blue focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                   >
@@ -233,8 +251,6 @@ export const OrderHistory = () => {
                   <button className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-semibold py-2 px-4 rounded opacity-50 cursor-not-allowed">
                     Already Canceled
                   </button>
-                )  : o.status === "Delivered 30+ days ago" ? (
-                  null
                 ): (
                   <button
                     onClick={() => Cancel(o._id, o.userID)}
